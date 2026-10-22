@@ -16,6 +16,7 @@
 - **Store search is ~3x faster** — every search re-normalized all ~200k catalog names plus rescanned the 200k/260k-entry JSON/name tables per query variant (~1.4s + ~0.9s/variant of pure CPU). Normalized names and search tokens are now precomputed once at load, and the scorer takes precomputed norms instead of re-normalizing. Results are byte-identical; the one-time load cost is ~1s and ~100 MB for the caches.
 - **SLSsteam no longer installs without asking** — the Linux startup check used to run headcrab the moment an install or update was available, killing Steam mid-session. GUI and CLI startups now ask first.
 - **Modern UI no longer laggy on Windows** — QtWebEngine's GPU compositor stuttered on integrated Intel graphics, outdated drivers, VMs, and Remote Desktop. `--disable-gpu --disable-gpu-compositing` is now set on Windows too, forcing smooth CPU compositing. Switch to Classic UI in Settings if you still prefer it.
+- **Professional minimal monochrome UI rewrite** — the Modern Web UI is now a grayscale commercial-grade interface built on the Inter typeface, thin borders, and restrained motion. Every feature, tab, and option is unchanged; only the presentation layer was replaced.
 
 ## 6.9.1
 
