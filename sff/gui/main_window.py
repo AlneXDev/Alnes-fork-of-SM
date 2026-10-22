@@ -145,7 +145,11 @@ class SFFMainWindow(QMainWindow):
         from sff.core.storage.settings import get_setting
         from sff.core.structs import Settings as _S
         _saved_theme = get_setting(_S.THEME)
-        self._current_theme = _saved_theme if (_saved_theme and _saved_theme in THEMES) else "dark"
+        if _saved_theme == "dark":
+            # "dark" used to carry the monochrome palette before it became
+            # its own theme, so an existing selection means Pure Dark.
+            _saved_theme = "pure-dark"
+        self._current_theme = _saved_theme if (_saved_theme and _saved_theme in THEMES) else "pure-dark"
         self._music_muted = False
         self._last_web_stdout_time = 0.0
         # Batched log forwarding to the web UI. Each emit crosses the
@@ -197,7 +201,7 @@ class SFFMainWindow(QMainWindow):
         self._worker = None
         self._worker_thread = None
         from sff.core.strings import VERSION
-        self.setWindowTitle(f"SteaMidra Fork ({VERSION})")
+        self.setWindowTitle(f"Alne's fork of SM ({VERSION})")
         self.setMinimumSize(960, 700)
         geom = get_setting(_S.WINDOW_GEOMETRY)
         if geom:
@@ -913,7 +917,7 @@ class SFFMainWindow(QMainWindow):
                 "<html><body style='background:#1a1a1a;color:#ccc;display:flex;"
                 "align-items:center;justify-content:center;height:100vh;"
                 "font-family:sans-serif;text-align:center'>"
-                "<div><h2 style='color:#f0c040'>SteaMidra UI failed to load</h2>"
+                "<div><h2 style='color:#f0c040'>Alne's fork of SM UI failed to load</h2>"
                 "<p>Try restarting or switching to Classic UI in Settings.</p></div>"
                 "</body></html>"
             )
@@ -1784,8 +1788,8 @@ class SFFMainWindow(QMainWindow):
             if not self._tray_hide_notified:
                 self._tray_hide_notified = True
                 self._tray.notify(
-                    "SteaMidra",
-                    "SteaMidra is running in the system tray. Click the ^ arrow near the clock to find it.",
+                    "Alne's fork of SM",
+                    "Alne's fork of SM is running in the system tray. Click the ^ arrow near the clock to find it.",
                 )
         else:
             # OFF branch: the tray icon is parented to QApplication, so leaving
@@ -1947,8 +1951,8 @@ class SFFMainWindow(QMainWindow):
         from sff.core.strings import VERSION
         QMessageBox.about(
             self,
-            "About SteaMidra",
-            f"SteaMidra\nVersion {VERSION}\n\n"
+            "About Alne's fork of SM",
+            f"Alne's fork of SM\nVersion {VERSION}\n\n"
             "https://github.com/drappula/SFF/releases",
         )
 

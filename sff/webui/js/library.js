@@ -309,7 +309,7 @@ window.Library = (function() {
             var badge = document.createElement('div');
             badge.className = 'steamidra-managed-badge';
             badge.textContent = 'SM';
-            badge.title = 'Added with SteaMidra';
+            badge.title = 'Added with Alne\'s fork of SM';
             card.appendChild(badge);
         }
         _attachUpdateBadge(card, game.app_id);

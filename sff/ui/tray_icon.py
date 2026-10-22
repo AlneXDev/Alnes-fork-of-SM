@@ -135,7 +135,7 @@ class TrayIcon(QObject):
         elif self._icon_path:
             self._tray.setIcon(QIcon(self._icon_path))
 
-        self._tray.setToolTip("SteaMidra")
+        self._tray.setToolTip("Alne's fork of SM")
         self._build_menu()
         self._tray.activated.connect(self._on_activated)
         self._tray.show()
