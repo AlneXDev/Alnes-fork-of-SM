@@ -106,7 +106,15 @@
 .game-list-actions { display: flex; gap: 6px; }
 
 /* ── Card stagger animation ── */
-.game-card.stagger-in { opacity: 0; animation: none; }
+.game-card.stagger-in {
+    opacity: 1;
+    animation: cardStaggerIn 0.3s ease both;
+}
+
+@keyframes cardStaggerIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 
 /* ── Update-available badges ── */
 .game-card { position: relative; }
