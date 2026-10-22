@@ -25,7 +25,8 @@
 - **Library free-storage icon was oversized** — the disk icon in the Library header had no size rules, so it rendered far larger than the text beside it. It is now a 16px icon aligned with its label.
 - **Store genre chips had no selected state** — the active genre chip looked identical to the rest because `.genre-chip.active` had no styling. It now uses the accent color with a readable label and a muted-to-normal hover for the others.
 - **Theme picker labels vanished on light themes** — each theme card carries a `data-theme` attribute, so light theme palettes applied their dark foreground to the card itself and painted dark text on the dark settings panel. Theme palettes now only apply to the page root.
-- **Renamed to "Alne's fork of SM"** — the window title, taskbar name, tray icon, About dialog, sidebar brand, and the built executable now carry the fork's name. The Explorer context-menu entry keeps its existing registry key so installs are upgraded in place.
+- **Window caption is blank** — the title bar showed the fork name next to the minimize, maximize, and close buttons. The caption is now empty, while the name stays in the sidebar, tray icon, and About dialog.
+- **Renamed to "Alne's fork of SM"** — the tray icon, About dialog, sidebar brand, and the built executable now carry the fork's name. The Explorer context-menu entry keeps its existing registry key so installs are upgraded in place.
 
 ## 6.9.1
 
