@@ -91,7 +91,7 @@ def install_context_menu():
         cmd = f'"{interpreter}" -f "%V"'
         how = "Executable"
 
-    shell_root = r"SOFTWARE\Classes\*\shell\SteaMidra"
+    shell_root = r"SOFTWARE\Classes\*\shell\AlnesForkOfSM"
     shell_cmd = shell_root + r"\command"
     hkcu = winreg.HKEY_CURRENT_USER
 
@@ -108,6 +108,8 @@ def install_context_menu():
 
 def uninstall_context_menu():
     keys_to_delete = [
+        r"SOFTWARE\Classes\*\shell\AlnesForkOfSM\command",
+        r"SOFTWARE\Classes\*\shell\AlnesForkOfSM",
         r"SOFTWARE\Classes\*\shell\SteaMidra\command",
         r"SOFTWARE\Classes\*\shell\SteaMidra",
         r"SOFTWARE\Classes\*\shell\SFF\command",

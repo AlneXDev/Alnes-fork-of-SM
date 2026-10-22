@@ -121,6 +121,7 @@ del "%PUBLIC%\Desktop\SteaMidra.lnk" 2>nul
 if exist "%APPDATA%\Microsoft\Windows\Start Menu\Programs\SteaMidra" rmdir /s /q "%APPDATA%\Microsoft\Windows\Start Menu\Programs\SteaMidra" 2>nul
 reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Uninstall\SteaMidra" /f >nul 2>&1
 reg delete "HKCU\Software\Midrags\SteaMidra" /f >nul 2>&1
+reg delete "HKCU\SOFTWARE\Classes\*\shell\AlnesForkOfSM" /f >nul 2>&1
 reg delete "HKCU\SOFTWARE\Classes\*\shell\SteaMidra" /f >nul 2>&1
 reg delete "HKCU\SOFTWARE\Classes\*\shell\SFF" /f >nul 2>&1
 if not "%STEAM%"=="" (
