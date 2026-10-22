@@ -658,6 +658,63 @@ window.Components = (function() {
         _hideImages = !!val;
     }
 
+    // Accent surfaces (primary buttons, active chips) need a label colour that
+    // stays readable when the accent is light — Pure Dark's white accent or a
+    // pale custom accent would otherwise paint white text on a white button.
+    var _ON_ACCENT_DARK = '#0a0a0a';
+    var _ON_ACCENT_LIGHT = '#ffffff';
+    // Saturated accents keep the familiar white label; this threshold only
+    // flips to dark text for accents bright enough to make white unreadable.
+    var _ON_ACCENT_THRESHOLD = 0.45;
+
+    function _parseCssColor(value) {
+        if (!value) return null;
+        var raw = value.trim();
+        var match = /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.exec(raw);
+        if (match) {
+            var hex = match[1];
+            if (hex.length === 3) {
+                hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+            }
+            return {
+                r: parseInt(hex.slice(0, 2), 16),
+                g: parseInt(hex.slice(2, 4), 16),
+                b: parseInt(hex.slice(4, 6), 16)
+            };
+        }
+        match = /^rgba?\(([^)]+)\)$/i.exec(raw);
+        if (match) {
+            var parts = match[1].split(',').map(function(part) {
+                return parseFloat(part);
+            });
+            if (parts.length >= 3 && !isNaN(parts[0])) {
+                return { r: parts[0], g: parts[1], b: parts[2] };
+            }
+        }
+        return null;
+    }
+
+    function _relativeLuminance(color) {
+        var channels = [color.r, color.g, color.b].map(function(channel) {
+            var c = channel / 255;
+            return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+        });
+        return 0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2];
+    }
+
+    function refreshAccentContrast() {
+        var root = document.documentElement;
+        var color = _parseCssColor(
+            getComputedStyle(root).getPropertyValue('--accent')
+        );
+        if (!color) return null;
+        var onAccent = _relativeLuminance(color) > _ON_ACCENT_THRESHOLD
+            ? _ON_ACCENT_DARK
+            : _ON_ACCENT_LIGHT;
+        root.style.setProperty('--on-accent', onAccent);
+        return onAccent;
+    }
+
     function showConfirm(title, message, onYes, onNo, yesLabel, noLabel) {
         var modal = document.getElementById('confirm-dialog');
         var titleEl = document.getElementById('confirm-dialog-title');
@@ -705,6 +762,7 @@ window.Components = (function() {
         CustomSelect: CustomSelect,
         populateDepotOsOptions: _populateDepotOsOptions,
         setHideImages: setHideImages,
+        refreshAccentContrast: refreshAccentContrast,
         _populateRyuuBranches: _populateRyuuBranches
     };
 })();

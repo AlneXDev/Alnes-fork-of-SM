@@ -258,6 +258,7 @@ window.Settings = (function() {
         // inline style to keep in sync or to wipe by accident.
         document.documentElement.setAttribute('data-theme', themeId);
         localStorage.setItem('theme', themeId);
+        Components.refreshAccentContrast();
         if (persist !== false) Bridge.call('set_setting', 'theme', themeId);
     }
 
