@@ -1,0 +1,143 @@
+name: Build & Release
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build-linux:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3.12 python3.12-venv python3.12-dev wget \
+            libfuse2 libatomic1 libnss3 libnspr4 libxkbfile1 \
+            libxkbcommon-x11-0 libxcb-cursor0 libxcb-xkb1 libxcb-image0 \
+            libxcb-keysyms1 libxcb-util1 libxcb-render-util0 libxcb-icccm4 \
+            libxcb-shape0 libasound2t64
+      - name: Fetch store metadata seed
+        run: python3.12 tools/fetch_store_metadata.py
+      - name: Build Linux AppImage
+        run: bash build_linux_appimage.sh --fresh
+      - name: Create Linux zip
+        run: |
+          VERSION=$(grep '^VERSION =' sff/core/strings.py | cut -d'"' -f2)
+          echo "Building Linux zip for version: $VERSION"
+          zip -j "SteaMidra-${VERSION}-linux.zip" \
+            SteaMidra-${VERSION}-x86_64.AppImage \
+            steamidra_install.sh \
+            SFF.png
+      - name: Upload Linux artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-release
+          path: |
+            SteaMidra-*-linux.zip
+            SteaMidra-*-x86_64.AppImage
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up Python 3.12
+        id: python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+      # pyvenv.cfg hardcodes the interpreter path, so a runner image that bumps
+      # the 3.12 patch version must miss this cache — hence python-version in
+      # the key. A wrong-version venv would fail at the import check.
+      - name: Cache venv
+        id: venv-cache
+        uses: actions/cache@v4
+        with:
+          path: .venv
+          key: venv-${{ steps.python.outputs.python-version }}-${{ runner.os }}-${{ hashFiles('requirements.txt') }}
+      - name: Install NSIS
+        uses: negrutiu/nsis-install@v2
+      - name: Fetch store metadata seed
+        run: python tools/fetch_store_metadata.py
+      - name: Run full build_installer.bat
+        shell: cmd
+        run: |
+          if "${{ steps.venv-cache.outputs.cache-hit }}"=="true" (
+            echo Reusing cached venv
+          ) else (
+            python -m venv .venv || exit /b 1
+            call .venv\Scripts\activate.bat
+            python -m pip install --upgrade pip || exit /b 1
+            python -m pip install -r requirements.txt || exit /b 1
+            python -m pip install steam==1.4.4 --no-deps || exit /b 1
+          )
+          call .venv\Scripts\activate.bat
+          python -c "import PyQt6.QtCore, PyQt6.QtWebEngineCore, prompt_toolkit, selenium, keyring, nacl, cryptography, googleapiclient, zendriver, bs4; print('all imports OK')" || exit /b 1
+          call build_installer.bat
+          if not exist "dist\SteaMidra_GUI\_internal\PyQt6\Qt6\bin\Qt6Core.dll" (
+            echo ERROR: Qt6Core.dll missing from _internal — PyInstaller produced a hollow build.
+            exit /b 1
+          )
+          powershell -NoProfile -Command "$bad = Get-ChildItem -LiteralPath 'dist\SteaMidra_GUI' -Recurse -File | Where-Object { $_.Name -match '\.so(\..*)?$' -or $_.FullName -match '(?i)(^|[\\/])x86_64-linux-gnu([\\/]|$)' -or $_.FullName -match '(?i)(^|[\\/])linux_x86_64([\\/]|$)' }; if ($bad) { $bad | Select-Object -First 40 FullName; throw 'Linux binary files leaked into Windows package' }"
+      - name: Create portable Windows zip
+        shell: pwsh
+        run: |
+          $version = (Select-String -Path "sff\core\strings.py" -Pattern '^VERSION = "(.+)"').Matches.Groups[1].Value
+          echo "Building Windows portable zip for version: $version"
+          Compress-Archive -Force -Path "dist\SteaMidra_GUI" -DestinationPath "SteaMidra-${version}-windows.zip"
+      - name: Upload Windows portable zip
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-release
+          path: SteaMidra-*-windows.zip
+      - name: Upload Windows installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-setup
+          path: SteaMidra-*-Setup.exe
+  release:
+    needs: [build-linux, build-windows]
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    steps:
+      - name: Checkout code (needed for release-note.md)
+        uses: actions/checkout@v4
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            linux-release/SteaMidra-*-linux.zip
+            linux-release/SteaMidra-*-x86_64.AppImage
+            windows-release/SteaMidra-*-windows.zip
+            windows-setup/SteaMidra-*-Setup.exe
+          draft: false
+          prerelease: false
+          body_path: release-note.md
+      - name: Label release assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag="${{ github.ref_name }}"
+          label_for() {
+            case "$1" in
+              *-linux.zip) echo "[Linux] ZIP" ;;
+              *-windows.zip) echo "[Windows] ZIP" ;;
+              *-Setup.exe) echo "[Windows] Setup.exe" ;;
+              *-x86_64.AppImage) echo "[Linux] AppImage" ;;
+            esac
+          }
+          gh api "repos/${{ github.repository }}/releases/tags/$tag" \
+            --jq '.assets[] | "\(.id) \(.name)"' | while read -r id name; do
+            label=$(label_for "$name")
+            if [ -n "$label" ]; then
+              gh api --method PATCH \
+                "repos/${{ github.repository }}/releases/assets/$id" \
+                -f label="$label" --jq '"\(.name) -> \(.label)"'
+            fi
+          done
