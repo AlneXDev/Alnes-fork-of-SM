@@ -22,7 +22,7 @@ import sys
 from pathlib import Path
 
 
-def _set_proc_title(title="SteaMidra"):
+def _set_proc_title(title="Alne's fork of SM"):
     try:
         try:
             import setproctitle  # type: ignore
@@ -42,7 +42,7 @@ def _set_proc_title(title="SteaMidra"):
 
 
 try:
-    _set_proc_title("SteaMidra")
+    _set_proc_title("Alne's fork of SM")
 except Exception:
     pass
 
@@ -64,7 +64,7 @@ except ImportError as _qt_err:
     if sys.platform == "win32":
         try:
             import ctypes
-            ctypes.windll.user32.MessageBoxW(0, _msg, "SteaMidra — incomplete install", 0x10)
+            ctypes.windll.user32.MessageBoxW(0, _msg, "Alne's fork of SM — incomplete install", 0x10)
         except Exception:
             pass
     else:
@@ -101,13 +101,12 @@ os.environ.setdefault('QTWEBENGINE_DISABLE_SANDBOX', '1')
 # default on Linux ONLY. setdefault means power users with their own
 # flag stack still win.
 #
-# Windows also gets --disable-gpu --disable-gpu-compositing. QtWebEngine's
-# GPU compositor on Windows stutters badly on integrated Intel graphics,
-# outdated drivers, VMs, and Remote Desktop — the #1 source of "UI is
-# laggy" reports. CPU compositing is consistently smooth everywhere. The
-# disable-gpu / disable-software-rasterizer stack here is what Skyflizz
-# and others used to recover their UI by switching to Classic; baking it
-# in skips the manual switch.
+# Windows keeps the GPU compositor on. Software rendering halves the
+# scroll frame rate (measured 32fps vs 60fps on the Store grid), which
+# reads as a stuttery, low-fps UI. Users on a machine where the GPU
+# path misbehaves can turn it off with the "Software rendering" setting
+# in Settings > Preferences; the flag stack is rebuilt from that
+# setting on the next launch.
 if sys.platform.startswith("linux"):
     if not os.environ.get("QTWEBENGINE_CHROMIUM_FLAGS"):
         os.environ["QTWEBENGINE_CHROMIUM_FLAGS"] = (
@@ -124,10 +123,26 @@ if sys.platform.startswith("linux"):
         _LINUX_CHROMIUM_FALLBACK_APPLIED = False
 else:
     _LINUX_CHROMIUM_FALLBACK_APPLIED = False
-os.environ.setdefault(
-    'QTWEBENGINE_CHROMIUM_FLAGS',
-    '--no-sandbox --ignore-gpu-blocklist --disable-gpu --disable-gpu-compositing',
-)
+
+
+def _chromium_flags() -> str:
+    """Chromium flag stack for the Modern UI.
+
+    Software rendering halves the scroll frame rate, so the GPU
+    compositor stays on unless the user opts out in Settings.
+    """
+    flags = ["--no-sandbox", "--ignore-gpu-blocklist"]
+    try:
+        from sff.core.storage.settings import get_setting as _get_setting
+        from sff.core.structs import Settings as _Settings
+        if _get_setting(_Settings.SOFTWARE_RENDERING) is True:
+            flags += ["--disable-gpu", "--disable-gpu-compositing"]
+    except Exception:
+        pass
+    return " ".join(flags)
+
+
+os.environ.setdefault('QTWEBENGINE_CHROMIUM_FLAGS', _chromium_flags())
 
 import PyQt6.QtWebEngineWidgets  # noqa: F401 - must import before QCoreApplication
 from PyQt6.QtWidgets import QApplication, QFileDialog, QMessageBox
@@ -150,7 +165,7 @@ except Exception as e:
         pass
     from PyQt6.QtWidgets import QApplication, QMessageBox
     app = QApplication.instance() or QApplication(sys.argv)
-    QMessageBox.critical(None, "SteaMidra startup error", msg[:2000])
+    QMessageBox.critical(None, "Alne's fork of SM startup error", msg[:2000])
     sys.exit(1)
 
 logger = logging.getLogger("sff")
@@ -266,8 +281,8 @@ def main():
             break
 
     app = QApplication(sys.argv)
-    app.setApplicationName("SteaMidra")
-    app.setApplicationDisplayName("SteaMidra")
+    app.setApplicationName("Alne's fork of SM")
+    app.setApplicationDisplayName("Alne's fork of SM")
 
     from sff.single_instance import SingleInstanceGuard
     _guard = SingleInstanceGuard()
@@ -353,7 +368,7 @@ def main():
                     _desktop_file.write_text(
                         "[Desktop Entry]\n"
                         "Version=1.0\n"
-                        "Name=SteaMidra\n"
+                        "Name=Alne's fork of SM\n"
                         "Comment=Steam game setup and manifest tool\n"
                         f"{_new_exec}\n"
                         "Icon=SteaMidra\n"
@@ -378,7 +393,7 @@ def main():
     while steam_path is None:
         QMessageBox.warning(
             None,
-            "Steam path required — SteaMidra",
+            "Steam path required — Alne's fork of SM",
             f"Steam installation path could not be found. Please select the folder that contains {_steam_exe}.",
         )
         path = QFileDialog.getExistingDirectory(None, f"Select Steam folder (contains {_steam_exe})")
@@ -488,7 +503,7 @@ def main():
 
     _tray_menu = tray._menu if hasattr(tray, "_menu") else None
     if _tray_menu is not None:
-        _quit_action = _QAction("Quit SteaMidra", _tray_menu)
+        _quit_action = _QAction("Quit Alne's fork of SM", _tray_menu)
         _quit_action.triggered.connect(_on_tray_quit_steamidra)
         _tray_menu.addAction(_quit_action)
         # Hold a strong ref so Qt does not GC the action.
@@ -730,7 +745,7 @@ def _show_error_and_exit(msg, log_path = "crash.log"):
         app = QApplication(sys.argv)
     QMessageBox.critical(
         None,
-        "SteaMidra failed to start",
+        "Alne's fork of SM failed to start",
         "An error occurred. See crash.log for details.\n\n" + msg[:1500],
     )
     sys.exit(1)

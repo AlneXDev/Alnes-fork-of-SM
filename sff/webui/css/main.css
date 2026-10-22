@@ -642,6 +642,16 @@ input:focus, select:focus {
 }
 .library-search:focus { outline: none; border-color: var(--fg-muted); }
 
+/* ── Library free-storage readout ── */
+.disk-info-wrap {
+    display: inline-flex; align-items: center; gap: 8px;
+    min-width: 0; color: var(--fg-muted); font-size: 12.5px;
+}
+.disk-info-icon {
+    width: 16px; height: 16px; flex: 0 0 auto;
+}
+.disk-info-text { white-space: nowrap; }
+
 /* ── Game source toggle ── */
 .game-source-row { display: flex; gap: 20px; align-items: center; margin-bottom: 4px; }
 .game-source-label {

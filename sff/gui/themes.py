@@ -190,6 +190,11 @@ QHeaderView::section {{ background-color: {btn_bg}; color: {fg}; padding: 4px; b
 """
 
 
+PURE_DARK_STYLE = _gen_dark_variant(
+    bg="#0a0a0a", fg="#eaeaea", accent="#ffffff", btn_bg="#2a2a2a",
+    btn_hover="#3a3a3a", input_bg="#1a1a1a", border="#444444"
+)
+
 CHERRY_STYLE = _gen_dark_variant(
     bg="#1a0a0e", fg="#f0d0d8", accent="#c0392b", btn_bg="#2d1118",
     btn_hover="#4a1a24", input_bg="#1f0c12", border="#5a2030"
@@ -238,6 +243,7 @@ PASTEL_STYLE = _gen_dark_variant(
 THEMES = {
     "light": ("Light", LIGHT_STYLE),
     "dark": ("Dark", DARK_STYLE),
+    "pure-dark": ("Pure Dark", PURE_DARK_STYLE),
     "cherry": ("Cherry", CHERRY_STYLE),
     "sunset": ("Sunset", SUNSET_STYLE),
     "forest": ("Forest", FOREST_STYLE),
@@ -256,6 +262,7 @@ THEMES = {
 THEME_BACKGROUNDS = {
     "light":     "#fafafa",
     "dark":      "#2d2d2d",
+    "pure-dark": "#0a0a0a",
     "cherry":    "#1a0a0e",
     "sunset":    "#1a1008",
     "forest":    "#0a1a0e",
@@ -278,6 +285,7 @@ def theme_background(key: str) -> str:
 TITLEBAR_COLORS = {
     "light":     {"bg": "#e8e8e8", "fg": "#111111", "accent": "#2563eb", "close": "#e81123", "border": "#cccccc"},
     "dark":      {"bg": "#1a1a1a", "fg": "#e8e8e8", "accent": "#4a9eff", "close": "#e81123", "border": "#444444"},
+    "pure-dark": {"bg": "#0a0a0a", "fg": "#eaeaea", "accent": "#ffffff", "close": "#e81123", "border": "#2a2a2a"},
     "cherry":    {"bg": "#12080c", "fg": "#f0d0d8", "accent": "#c0392b", "close": "#e81123", "border": "#3a1520"},
     "sunset":    {"bg": "#120c06", "fg": "#f0dcc0", "accent": "#e67e22", "close": "#e81123", "border": "#3a2418"},
     "forest":    {"bg": "#08120a", "fg": "#d0f0d8", "accent": "#27ae60", "close": "#e81123", "border": "#1a3a24"},

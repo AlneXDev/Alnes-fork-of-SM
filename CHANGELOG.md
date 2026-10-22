@@ -6,6 +6,8 @@
 
 - **First-run interactive tutorial** — new users get asked if they want a 1-minute tour. It spotlights Auto LC Setup (Linux Setup on Linux), the Store tab, each download source, and the Downloads tab using a fake demo game, so no real download runs. Replay it from Settings.
 - **Standalone install/uninstall scripts** — `install.sh`/`install.bat` fetch the latest GitHub release (`linux.zip`/`Setup.exe`) and run it, with a block progress bar showing MB downloaded/total and a `--pre` flag for the newest beta/prerelease. `uninstall.sh`/`uninstall.bat` ask before deleting added games and LumaCore (Windows)/SLSsteam (Linux), then remove the app, shortcuts, registry entries, and Steam-side luas/ACFs. Game detection intersects injected entries with SteaMidra's own `saved_lua` record, so legit Steam components (Linux runtimes, Proton, redistributables) are never listed.
+- **Pure Dark theme** — the monochrome palette is now a theme of its own in Settings → Theme. Dark keeps its original grey-and-blue look, Pure Dark is the near-black monochrome variant, and the choice is remembered between launches.
+- **Software rendering switch** — Settings → Preferences has a "Software rendering" option that turns the GPU compositor off for machines where it misbehaves. It takes effect after a restart.
 
 ### Fixed
 
@@ -15,11 +17,13 @@
 - **Native downloader rejects wrong-depot manifests with a clear error** — a mislabeled manifest in a bundle used to die in AES decrypt with \"Padding is incorrect\" and the reason never reached the log. The manifest's embedded depot/manifest IDs are now checked up front, key mismatches get an actionable message, and native status lines are logged instead of swallowed.
 - **Store search is ~3x faster** — every search re-normalized all ~200k catalog names plus rescanned the 200k/260k-entry JSON/name tables per query variant (~1.4s + ~0.9s/variant of pure CPU). Normalized names and search tokens are now precomputed once at load, and the scorer takes precomputed norms instead of re-normalizing. Results are byte-identical; the one-time load cost is ~1s and ~100 MB for the caches.
 - **SLSsteam no longer installs without asking** — the Linux startup check used to run headcrab the moment an install or update was available, killing Steam mid-session. GUI and CLI startups now ask first.
-- **Modern UI no longer laggy on Windows** — QtWebEngine's GPU compositor stuttered on integrated Intel graphics, outdated drivers, VMs, and Remote Desktop. `--disable-gpu --disable-gpu-compositing` is now set on Windows too, forcing smooth CPU compositing. Switch to Classic UI in Settings if you still prefer it.
+- **Modern UI no longer laggy on Windows** — QtWebEngine's GPU compositor stuttered on integrated Intel graphics, outdated drivers, VMs, and Remote Desktop. The GPU path is back on by default, and a "Software rendering" switch in Settings → Preferences turns it off for machines where it misbehaves. Switch to Classic UI in Settings if you still prefer it.
 - **Professional minimal monochrome UI rewrite** — the Modern Web UI is now a grayscale commercial-grade interface built on the Inter typeface, thin borders, and restrained motion. Every feature, tab, and option is unchanged; only the presentation layer was replaced.
 - **Store/Library buttons invisible on custom black accent** — `.btn-primary` text was hardcoded `#000`, so a saved black accent color (`#000000`) made primary buttons (Search, Depot Keys, Play, Fix, etc.) unreadable/unclickable. Primary button text is now `#fff` and the default accent is `#444444`.
 - **Store now ships with an offline game catalog** — `store_metadata/games.json` (188k apps) is bundled in the EXE so the Store landing page populates instantly without network. Run `python tools/fetch_store_metadata.py` before building to regenerate the seed.
 - **Store and Library showed no games at all** — the theme rewrite dropped the `cardStaggerIn` keyframes while keeping `opacity: 0` on every game card, so all cards rendered fully transparent even though the data loaded. The entrance animation is back, cards stay visible when motion is reduced, and the Store and Library now list their games again.
+- **Library free-storage icon was oversized** — the disk icon in the Library header had no size rules, so it rendered far larger than the text beside it. It is now a 16px icon aligned with its label.
+- **Renamed to "Alne's fork of SM"** — the window title, taskbar name, tray icon, About dialog, sidebar brand, and the built executable now carry the fork's name. The Explorer context-menu entry keeps its existing registry key so installs are upgraded in place.
 
 ## 6.9.1
 

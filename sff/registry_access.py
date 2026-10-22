@@ -97,11 +97,11 @@ def install_context_menu():
 
     try:
         with winreg.CreateKey(hkcu, shell_root) as k:
-            winreg.SetValueEx(k, "", 0, winreg.REG_SZ, "Add to SteaMidra")
+            winreg.SetValueEx(k, "", 0, winreg.REG_SZ, "Add to Alne's fork of SM")
             winreg.SetValueEx(k, "Icon", 0, winreg.REG_SZ, icon_path)
         with winreg.CreateKey(hkcu, shell_cmd) as k:
             winreg.SetValueEx(k, "", 0, winreg.REG_SZ, cmd)
-        print(Fore.GREEN + f"Success! Context menu added via {how}.\nYou can now right click .lua/.zip files and click \"Add to SteaMidra\"" + Style.RESET_ALL)
+        print(Fore.GREEN + f"Success! Context menu added via {how}.\nYou can now right click .lua/.zip files and click \"Add to Alne's fork of SM\"" + Style.RESET_ALL)
     except Exception as e:
         print(f"Failed to update registry: {e}")
 

@@ -55,17 +55,17 @@ echo ========================================
 echo BUILD SUCCESSFUL!
 echo ========================================
 echo.
-echo Folder:     dist\SteaMidra_GUI\
-echo Executable: dist\SteaMidra_GUI\SteaMidra_GUI.exe
+echo Folder:     dist\Alnes_fork_of_SM\
+echo Executable: dist\Alnes_fork_of_SM\Alnes_fork_of_SM.exe
 echo.
 
-if exist "dist\SteaMidra_GUI\SteaMidra_GUI.exe" (
-    python -c "import os; size = sum(os.path.getsize(os.path.join(r,f)) for r,d,files in os.walk('dist/SteaMidra_GUI') for f in files); print(f'Total size: {size / (1024*1024):.1f} MB')"
+if exist "dist\Alnes_fork_of_SM\Alnes_fork_of_SM.exe" (
+    python -c "import os; size = sum(os.path.getsize(os.path.join(r,f)) for r,d,files in os.walk('dist/Alnes_fork_of_SM') for f in files); print(f'Total size: {size / (1024*1024):.1f} MB')"
 )
 
 echo.
-echo You can now run: dist\SteaMidra_GUI\SteaMidra_GUI.exe
-echo Zip the dist\SteaMidra_GUI\ folder for distribution.
+echo You can now run: dist\Alnes_fork_of_SM\Alnes_fork_of_SM.exe
+echo Zip the dist\Alnes_fork_of_SM\ folder for distribution.
 echo Settings will be saved next to the EXE.
 echo.
 pause

@@ -244,7 +244,7 @@ exe = EXE(
     pyz,
     a.scripts,
     exclude_binaries=True,
-    name='SteaMidra_GUI',
+    name='Alnes_fork_of_SM',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -266,5 +266,5 @@ coll = COLLECT(
     strip=False,
     upx=False,
     upx_exclude=[],
-    name='SteaMidra_GUI',
+    name='Alnes_fork_of_SM',
 )

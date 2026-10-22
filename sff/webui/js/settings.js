@@ -9,6 +9,7 @@ window.Settings = (function() {
     var _initialized = false;
     var _themeFilter = 'all';
     var THEMES = [
+        { id: 'pure-dark', name: 'Pure Dark', bg: '#0a0a0a', accent: '#ffffff' },
         { id: 'dark', name: 'Dark', bg: '#2d2d2d', accent: '#4a9eff' },
         { id: 'light', name: 'Light', bg: '#fafafa', accent: '#2563eb' },
         { id: 'cherry', name: 'Cherry', bg: '#1a0a0a', accent: '#e84040' },
@@ -142,7 +143,7 @@ window.Settings = (function() {
         if (!picker) return;
 
         picker.innerHTML = '';
-        var currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+        var currentTheme = document.documentElement.getAttribute('data-theme') || 'pure-dark';
         var studio = document.createElement('div');
         studio.className = 'theme-studio';
         studio.innerHTML =
@@ -568,7 +569,7 @@ window.Settings = (function() {
                     }
                     if (!data.update_available) {
                         resetUpdateButton();
-                        Components.showToast('success', 'SteaMidra is already up to date.');
+                        Components.showToast('success', 'Alne\'s fork of SM is already up to date.');
                         return;
                     }
                     Components.showToast('info', 'Update available: ' + (data.latest || 'new release'));
@@ -640,6 +641,7 @@ window.Settings = (function() {
             'setting-store-show-software': 'store_show_software',
             'setting-block-nsfw': 'store_block_nsfw',
             'setting-auto-enable-new-game-updates': 'auto_enable_updates_new_games',
+            'setting-software-rendering': 'software_rendering',
         };
         Object.keys(checkboxes).forEach(function(id) {
             var el = document.getElementById(id);
@@ -889,6 +891,7 @@ window.Settings = (function() {
                 _setCheckbox('setting-advanced-mode', settings.advanced_mode);
                 _setCheckbox('setting-use-smokeapi', settings.use_smokeapi);
                 _setCheckbox('setting-hide-store-images', settings.hide_store_images);
+                _setCheckbox('setting-software-rendering', settings.software_rendering);
                 Components.setHideImages(settings.hide_store_images === 'True');
                 // A9: default ON unless explicitly stored as False
                 var autoUpd = settings.auto_update_check;
@@ -930,7 +933,7 @@ window.Settings = (function() {
                 _setCheckbox('setting-auto-enable-new-game-updates', settings.auto_enable_updates_new_games);
                 // Theme
                 if (settings.theme) {
-                    var displayedTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+                    var displayedTheme = document.documentElement.getAttribute('data-theme') || 'pure-dark';
                     _applyTheme(settings.theme, false);
                     if (displayedTheme !== settings.theme) _renderThemePicker();
                 }

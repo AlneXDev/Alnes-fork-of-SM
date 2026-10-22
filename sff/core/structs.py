@@ -220,6 +220,7 @@ class Settings(Enum):
     STEAM_WEB_API_KEY = SettingItem("steam_web_api_key", "Steam Web API Key", True, str)
     PLAY_MUSIC = SettingItem("play_music", "Play Music", False, bool)
     THEME = SettingItem("theme", "Theme", False, str)
+    SOFTWARE_RENDERING = SettingItem("software_rendering", "Software Rendering", False, bool)
     CUSTOM_BACKGROUND_IMAGE = SettingItem("custom_background_image", "Custom UI Background Image", False, str)
     CUSTOM_ACCENT_COLOR = SettingItem("custom_accent_color", "Custom UI Accent Color", False, str)
     ONLINE_FIX_NEW_SYSTEM_SHOWN = SettingItem("online_fix_new_system_shown", "Online-Fix New System Shown", False, bool)

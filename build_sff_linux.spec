@@ -8,7 +8,7 @@
 #   pip install pyinstaller
 #   pyinstaller build_sff_linux.spec
 #
-# Output: dist/SteaMidra_GUI/   (directory — use as AppDir/usr/bin/ content)
+# Output: dist/Alnes_fork_of_SM/   (directory — use as AppDir/usr/bin/ content)
 
 import os
 import sys
@@ -310,7 +310,7 @@ exe = EXE(
     a.scripts,
     [],
     exclude_binaries=True,
-    name='SteaMidra_GUI',
+    name='Alnes_fork_of_SM',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -331,5 +331,5 @@ coll = COLLECT(
     strip=False,
     upx=False,
     upx_exclude=[],
-    name='SteaMidra_GUI',
+    name='Alnes_fork_of_SM',
 )

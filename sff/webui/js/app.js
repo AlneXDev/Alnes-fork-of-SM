@@ -109,7 +109,7 @@ window.App = (function() {
                     Bridge.callWithCallback('get_setting', 'linux_guide_shown', function(val) {
                         if (val === 'True') return;
                         setTimeout(function() {
-                            var msg = 'SteaMidra has been installed on Linux.\n\n';
+                            var msg = 'Alne\'s fork of SM has been installed on Linux.\n\n';
                             msg += 'If you are on SteamOS / Steam Deck, there are important steps:\n\n';
                             msg += '1. Disable read-only: sudo steamos-readonly disable\n\n';
                             msg += '2. Enable SafeMode: yes in SLSsteam config.yaml\n';
@@ -3313,7 +3313,7 @@ window.App = (function() {
             deactivateBtn.addEventListener('click', function() {
                 var ok = window.confirm(
                     'Deactivate LumaCore?\n\n' +
-                    'Steam will be closed first. SteaMidra will then remove ' +
+                    'Steam will be closed first. Alne\'s fork of SM will then remove ' +
                     'LumaCore.dll, xinput1_4.dll, and bin/lcoverlay.dll. ' +
                     'Make sure no Steam process is open before continuing.'
                 );
@@ -3408,7 +3408,7 @@ window.App = (function() {
 
             if (!installed) {
                 if (titleEl) titleEl.textContent = 'LumaCore Installation Required';
-                if (bodyEl) bodyEl.textContent = 'Install LumaCore so Steam can see games added through SteaMidra.';
+                if (bodyEl) bodyEl.textContent = 'Install LumaCore so Steam can see games added through Alne\'s fork of SM.';
                 if (actionEl) actionEl.textContent = 'Auto LC Setup';
                 alertEl.classList.remove('hidden');
                 return;
