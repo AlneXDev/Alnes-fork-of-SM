@@ -23,6 +23,17 @@ def get_win10toast_data():
 datas = [
 ]
 
+# Python 3.14 ships OpenSSL in its DLLs folder. PyInstaller 6.22.x sometimes
+# collects mismatched libssl-3-x64.dll/libcrypto-3-x64.dll from the cryptography
+# wheel instead of the DLLs that _ssl.pyd was built against, causing
+# "DLL load failed: The specified procedure could not be found."
+# Bundle the matching DLLs directly from the base Python installation.
+_BASE_PYTHON_DIR = r'C:\Users\AlneB\AppData\Local\Programs\Python\Python314'
+for _ssl_name in ("libcrypto-3.dll", "libssl-3.dll"):
+    _ssl_src = os.path.join(_BASE_PYTHON_DIR, 'DLLs', _ssl_name)
+    if os.path.exists(_ssl_src):
+        datas.append((_ssl_src, _ssl_name))
+
 # Include only Windows-side third_party tools. Do not drag Linux .so folders
 # into the Windows package, that made the installer fat and confusing.
 third_party_dir = os.path.join(spec_root, 'third_party')
@@ -199,7 +210,7 @@ a = Analysis(
     ],
     hookspath=['hooks'],
     hooksconfig={},
-    runtime_hooks=[],
+    runtime_hooks=['rthook_openssl.py'],
     excludes=[
         'tkinter',
         'matplotlib',
@@ -213,6 +224,19 @@ a = Analysis(
     cipher=block_cipher,
     noarchive=False,
 )
+
+# Strip any OpenSSL DLLs PyInstaller auto-collected (from Python's DLLs
+# folder and/or the cryptography wheel) so there's exactly one file per
+# OpenSSL DLL basename in _internal/. datas[] already supplies libcrypto-3.dll
+# and libssl-3.dll; the -x64 variants are dropped entirely.
+_OPENSSL_BASENAMES = {
+    'libssl-3.dll', 'libcrypto-3.dll',
+    'libssl-3-x64.dll', 'libcrypto-3-x64.dll',
+}
+a.binaries = [
+    b for b in a.binaries
+    if os.path.basename(b[0]) not in _OPENSSL_BASENAMES
+]
 
 pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)
 

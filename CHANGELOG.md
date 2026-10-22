@@ -18,6 +18,7 @@
 - **Modern UI no longer laggy on Windows** — QtWebEngine's GPU compositor stuttered on integrated Intel graphics, outdated drivers, VMs, and Remote Desktop. `--disable-gpu --disable-gpu-compositing` is now set on Windows too, forcing smooth CPU compositing. Switch to Classic UI in Settings if you still prefer it.
 - **Professional minimal monochrome UI rewrite** — the Modern Web UI is now a grayscale commercial-grade interface built on the Inter typeface, thin borders, and restrained motion. Every feature, tab, and option is unchanged; only the presentation layer was replaced.
 - **Store/Library buttons invisible on custom black accent** — `.btn-primary` text was hardcoded `#000`, so a saved black accent color (`#000000`) made primary buttons (Search, Depot Keys, Play, Fix, etc.) unreadable/unclickable. Primary button text is now `#fff` and the default accent is `#444444`.
+- **Store now ships with an offline game catalog** — `store_metadata/games.json` (188k apps) is bundled in the EXE so the Store landing page populates instantly without network. Run `python tools/fetch_store_metadata.py` before building to regenerate the seed.
 
 ## 6.9.1
 
