@@ -34,6 +34,7 @@ window.App = (function() {
             document.documentElement.style.setProperty('--accent', accentColor);
             document.documentElement.style.setProperty('--sidebar-active', accentColor);
         }
+        Components.refreshAccentContrast();
     }
 
     function clearCustomAppearance(backgroundOnly) {
@@ -43,6 +44,7 @@ window.App = (function() {
         if (!backgroundOnly) {
             document.documentElement.style.removeProperty('--accent');
             document.documentElement.style.removeProperty('--sidebar-active');
+            Components.refreshAccentContrast();
         }
     }
 
@@ -132,6 +134,7 @@ window.App = (function() {
                     document.documentElement.setAttribute('data-theme', themeId);
                     localStorage.setItem('theme', themeId);
                 }
+                Components.refreshAccentContrast();
                 _loadCustomAppearance(py);
             });
 
@@ -347,6 +350,7 @@ window.App = (function() {
         var savedTheme = localStorage.getItem('theme');
         if (savedTheme) {
             document.documentElement.setAttribute('data-theme', savedTheme);
+            Components.refreshAccentContrast();
         }
     }
 
