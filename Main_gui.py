@@ -99,10 +99,15 @@ os.environ.setdefault('QTWEBENGINE_DISABLE_SANDBOX', '1')
 # the modern UI ends up blank. If the user hasn't already set their own
 # QTWEBENGINE_CHROMIUM_FLAGS, slap a CPU-render fallback on top of the
 # default on Linux ONLY. setdefault means power users with their own
-# flag stack still win. Windows path is untouched. The disable-gpu /
-# disable-features / disable-software-rasterizer stack here is what
-# Skyflizz and others used to recover their UI by switching to Classic;
-# baking it in skips the manual switch.
+# flag stack still win.
+#
+# Windows also gets --disable-gpu --disable-gpu-compositing. QtWebEngine's
+# GPU compositor on Windows stutters badly on integrated Intel graphics,
+# outdated drivers, VMs, and Remote Desktop — the #1 source of "UI is
+# laggy" reports. CPU compositing is consistently smooth everywhere. The
+# disable-gpu / disable-software-rasterizer stack here is what Skyflizz
+# and others used to recover their UI by switching to Classic; baking it
+# in skips the manual switch.
 if sys.platform.startswith("linux"):
     if not os.environ.get("QTWEBENGINE_CHROMIUM_FLAGS"):
         os.environ["QTWEBENGINE_CHROMIUM_FLAGS"] = (
@@ -121,7 +126,7 @@ else:
     _LINUX_CHROMIUM_FALLBACK_APPLIED = False
 os.environ.setdefault(
     'QTWEBENGINE_CHROMIUM_FLAGS',
-    '--no-sandbox --ignore-gpu-blocklist',
+    '--no-sandbox --ignore-gpu-blocklist --disable-gpu --disable-gpu-compositing',
 )
 
 import PyQt6.QtWebEngineWidgets  # noqa: F401 - must import before QCoreApplication
