@@ -23,7 +23,7 @@
 }
 
 :root {
-    /* Monochrome palette — commercial dark, high contrast */
+    /* Monochrome palette — commercial dark */
     --bg: #0a0a0a;
     --bg-secondary: #1a1a1a;
     --fg: #eaeaea;
@@ -531,7 +531,7 @@ input:focus, select:focus {
     gap: 10px; margin-bottom: 14px;
 }
 .provider-card {
-    background: #0f0f0f; border: 2px solid var(--border);
+    background: var(--card-bg); border: 2px solid var(--border);
     border-radius: 8px; padding: 12px 8px; cursor: pointer;
     text-align: center; display: flex; flex-direction: column;
     align-items: center; gap: 4px; user-select: none;
@@ -554,7 +554,7 @@ input:focus, select:focus {
 .rclone-provider-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
 .rclone-chip {
     font-size: 0.78rem; padding: 4px 10px; border-radius: 14px;
-    border: 1px solid var(--border); background: #0f0f0f;
+    border: 1px solid var(--border); background: var(--card-bg);
     color: var(--fg); cursor: pointer; white-space: nowrap;
     transition: border-color var(--transition), background var(--transition);
 }
