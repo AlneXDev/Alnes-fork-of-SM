@@ -1,6 +1,6 @@
 /* SteaMidra — All themes as CSS custom properties */
 :root, [data-theme="dark"] {
-    /* Professional minimal monochrome dark — high contrast */
+    /* Professional minimal monochrome dark */
     --bg: #0a0a0a;
     --fg: #eaeaea;
     --card-bg: #222222;
