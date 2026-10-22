@@ -403,6 +403,92 @@ input:focus, select:focus {
     padding: 12px 20px; border-top: 1px solid var(--border);
     display: flex; justify-content: flex-end; gap: 8px; flex-wrap: wrap;
 }
+.modal-content.modal-lg { max-width: 780px; }
+.modal.modal-hiding .modal-content { animation: slideDown 0.15s ease forwards; }
+
+/* ── EAC guide ── */
+.eac-tab {
+    padding: 6px 11px; border: 1px solid var(--border);
+    border-radius: 6px; background: var(--btn-bg); color: var(--fg);
+    font-family: inherit; font-size: 12px; cursor: pointer;
+    transition: background var(--transition), border-color var(--transition);
+}
+.eac-tab:hover { background: var(--btn-hover); border-color: var(--border-hover); }
+.eac-tab-active,
+.eac-tab-active:hover {
+    background: var(--accent); border-color: var(--accent);
+    color: var(--on-accent); font-weight: 600;
+}
+#eac-guide-modal .modal-content {
+    max-width: min(760px, 95vw); max-height: 90vh;
+}
+#eac-guide-modal .eac-page pre {
+    color: var(--fg); overflow-x: auto;
+    font-family: ui-monospace, Consolas, "Courier New", monospace;
+    font-size: 12.5px;
+}
+#eac-guide-modal .eac-page code {
+    background: var(--input-bg); border-radius: 4px; padding: 1px 5px;
+    font-family: ui-monospace, Consolas, "Courier New", monospace;
+    font-size: 12.5px;
+}
+
+/* ── Download modes ── */
+.download-option {
+    display: flex; align-items: flex-start; gap: 14px;
+    width: 100%; padding: 14px 16px; margin-bottom: 10px;
+    background: var(--input-bg); border: 1px solid var(--border);
+    border-radius: var(--radius); color: var(--fg);
+    font: inherit; text-align: left; cursor: pointer;
+    transition: background var(--transition), border-color var(--transition);
+}
+.download-option:hover {
+    background: var(--card-bg); border-color: var(--border-hover);
+}
+.download-option:disabled,
+.download-option.is-disabled { opacity: 0.5; cursor: not-allowed; }
+.download-option:disabled:hover,
+.download-option.is-disabled:hover {
+    background: var(--input-bg); border-color: var(--border);
+}
+.dl-icon {
+    flex: 0 0 auto; width: 24px; height: 24px; margin-top: 1px;
+    color: var(--fg-secondary);
+    fill: none; stroke: currentColor; stroke-width: 2;
+    stroke-linecap: round; stroke-linejoin: round;
+}
+.download-option:hover .dl-icon { color: var(--fg); }
+.dl-info { display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 0; }
+.dl-title { font-size: 13.5px; font-weight: 600; line-height: 1.35; }
+.dl-desc { font-size: 12px; line-height: 1.45; color: var(--fg-muted); }
+
+/* ── Download source picker ── */
+.dl-source-picker {
+    display: flex; align-items: center; flex-wrap: wrap; gap: 8px;
+    padding: 10px 12px; margin-bottom: 16px;
+    background: var(--input-bg); border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+.dl-source-label {
+    flex-shrink: 0; margin-right: 2px;
+    font-size: 12px; color: var(--fg-muted);
+}
+.dl-source-picker .dl-source-option {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 12px; border: 1px solid var(--border);
+    border-radius: 20px; font-size: 12px; font-weight: 500;
+    color: var(--fg-secondary); cursor: pointer; user-select: none;
+    transition: background var(--transition), border-color var(--transition),
+                color var(--transition);
+}
+.dl-source-picker .dl-source-option:hover {
+    background: var(--card-bg); border-color: var(--border-hover); color: var(--fg);
+}
+.dl-source-picker .dl-source-option:has(input:checked) {
+    background: var(--accent); border-color: var(--accent);
+    color: var(--on-accent); font-weight: 600;
+}
+.dl-source-option input[type="radio"] { display: none; }
 
 /* ── Data Tables ── */
 .data-table { margin-top: 16px; overflow-x: auto; }
@@ -568,6 +654,40 @@ input:focus, select:focus {
 }
 .cloudsaves-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 
+/* ── Backup progress ── */
+.backup-progress {
+    display: flex; flex-direction: column; gap: 6px;
+    padding: 12px 14px; margin-bottom: 14px;
+    background: var(--input-bg); border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+.backup-progress-header {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; font-size: 13px;
+}
+.backup-progress-header span:first-child {
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    max-width: 70%; font-weight: 500;
+}
+.backup-progress-header span:last-child {
+    flex-shrink: 0; font-size: 12px; color: var(--fg-muted);
+}
+.backup-progress-track {
+    width: 100%; height: 8px; overflow: hidden;
+    background: var(--border); border-radius: 4px;
+}
+#all-saves-progress-fill {
+    width: 0%; height: 100%; border-radius: 4px;
+    background: var(--accent);
+    transition: width 0.35s ease;
+}
+.backup-progress-stats {
+    display: flex; gap: 16px;
+    font-size: 12px; color: var(--fg-muted);
+}
+#all-saves-progress-ok { color: var(--fg); }
+#all-saves-progress-fail { color: var(--fg); font-weight: 600; }
+
 /* ── Settings ── */
 .settings-section {
     background: var(--card-bg); border: 1px solid var(--border);
@@ -592,6 +712,23 @@ input:focus, select:focus {
     display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
 }
 .profile-controls select { width: auto; min-width: 180px; }
+.profile-controls .custom-select { flex: 0 0 auto; width: auto; min-width: 180px; }
+.settings-section .input-group .custom-select { width: auto; max-width: 260px; }
+.view-toggle .btn { height: 100%; }
+.connect-form { display: flex; gap: 8px; max-width: 400px; margin: 0 auto; }
+.connect-form input { flex: 1; }
+.page-info { font-size: 13px; color: var(--fg-muted); }
+.info-callout {
+    padding: 10px 14px; margin-bottom: 16px;
+    background: var(--input-bg); border-left: 3px solid var(--accent);
+    border-radius: 6px; font-size: 0.85rem; line-height: 1.5;
+    color: var(--fg-secondary);
+}
+.info-callout strong { color: var(--fg); }
+.spinner {
+    display: inline-block; vertical-align: middle;
+    animation: spin 0.8s linear infinite; color: currentColor;
+}
 
 /* ── Downloads ── */
 .downloads-section { margin-bottom: 24px; }
@@ -613,6 +750,61 @@ input:focus, select:focus {
     height: 100%; background: var(--accent); border-radius: 2px;
     transition: width 0.3s ease;
 }
+
+/* ── Bulk import ── */
+.bulk-drop-zone {
+    margin-top: 12px; padding: 24px 18px;
+    background: var(--input-bg); border: 2px dashed var(--border);
+    border-radius: var(--radius); color: var(--fg);
+    text-align: center; font-size: 13px; user-select: none;
+    transition: background var(--transition), border-color var(--transition);
+}
+.bulk-drop-zone .bulk-drop-zone-icon {
+    display: block; margin-bottom: 6px;
+    font-size: 28px; line-height: 1; opacity: 0.6;
+}
+.bulk-drop-zone .bulk-drop-zone-text { opacity: 0.85; }
+.bulk-drop-zone:hover,
+.bulk-drop-zone.bulk-drop-active {
+    background: var(--card-bg); border-color: var(--accent);
+}
+.bulk-aggregate-progress {
+    margin-top: 14px; padding: 10px 12px;
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+.bulk-aggregate-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 6px; font-size: 12px;
+}
+.bulk-aggregate-track {
+    width: 100%; height: 6px; overflow: hidden;
+    background: var(--border); border-radius: 3px;
+}
+.bulk-aggregate-fill {
+    width: 0%; height: 100%; border-radius: 3px;
+    background: var(--accent); transition: width 0.25s ease;
+}
+.bulk-results-panel {
+    margin-top: 14px; padding: 12px 14px;
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+.bulk-results-title { margin-bottom: 8px; font-size: 13px; font-weight: 600; }
+.bulk-results-list {
+    margin: 0; padding: 0; list-style: none;
+    max-height: 220px; overflow-y: auto;
+    font-family: ui-monospace, Consolas, "Courier New", monospace;
+    font-size: 11px; line-height: 1.5;
+}
+.bulk-result-item {
+    padding: 3px 4px; word-break: break-all;
+    border-bottom: 1px solid var(--border);
+}
+.bulk-result-item:last-child { border-bottom: none; }
+.bulk-result-ok { color: var(--fg); }
+.bulk-result-fail { color: var(--fg); font-weight: 600; }
+.bulk-result-skipped { color: var(--fg-muted); }
 
 /* ── Empty States ── */
 .empty-state {
@@ -642,6 +834,11 @@ input:focus, select:focus {
     color: var(--fg); font-size: 13px;
 }
 .library-search:focus { outline: none; border-color: var(--fg-muted); }
+#library-filter-managed.active {
+    background: var(--accent); border-color: var(--accent);
+    color: var(--on-accent); font-weight: 600;
+}
+.store-options select { width: auto; min-width: 160px; }
 
 /* ── Library free-storage readout ── */
 .disk-info-wrap {
@@ -652,6 +849,17 @@ input:focus, select:focus {
     width: 16px; height: 16px; flex: 0 0 auto;
 }
 .disk-info-text { white-space: nowrap; }
+.disk-drive-custom { flex: 0 0 auto; min-width: 0; }
+.disk-drive-custom .custom-select-display { padding: 2px 7px; font-size: 12px; }
+.disk-drive-custom .custom-select-dropdown { min-width: 55px; }
+
+/* ── SteaMidra-managed badge ── */
+.steamidra-managed-badge {
+    position: absolute; top: 8px; left: 8px; z-index: 3;
+    padding: 3px 6px; border-radius: 6px;
+    background: var(--accent); color: var(--on-accent);
+    font-size: 11px; font-weight: 700; line-height: 1;
+}
 
 /* ── Game source toggle ── */
 .game-source-row { display: flex; gap: 20px; align-items: center; margin-bottom: 4px; }
