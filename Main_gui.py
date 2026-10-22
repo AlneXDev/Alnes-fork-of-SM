@@ -282,7 +282,9 @@ def main():
 
     app = QApplication(sys.argv)
     app.setApplicationName("Alne's fork of SM")
-    app.setApplicationDisplayName("Alne's fork of SM")
+    # Empty rather than the app name: Qt uses the display name as the window
+    # title whenever the title is blank, and SFFMainWindow keeps it blank.
+    app.setApplicationDisplayName("")
 
     from sff.single_instance import SingleInstanceGuard
     _guard = SingleInstanceGuard()

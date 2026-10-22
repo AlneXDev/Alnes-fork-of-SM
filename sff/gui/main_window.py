@@ -200,8 +200,11 @@ class SFFMainWindow(QMainWindow):
         self._stream_emitter.text_written.connect(self._buffer_qt_log)
         self._worker = None
         self._worker_thread = None
-        from sff.core.strings import VERSION
-        self.setWindowTitle(f"Alne's fork of SM ({VERSION})")
+        # Caption stays blank: the app name already sits in the sidebar, tray
+        # and About box, and a blank caption keeps the title bar to the window
+        # buttons. Qt falls back to the display name for empty titles, so
+        # Main_gui clears that too.
+        self.setWindowTitle("")
         self.setMinimumSize(960, 700)
         geom = get_setting(_S.WINDOW_GEOMETRY)
         if geom:
