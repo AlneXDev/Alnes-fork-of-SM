@@ -23,25 +23,25 @@
 }
 
 :root {
-    /* Monochrome palette — commercial dark */
+    /* Monochrome palette — commercial dark, high contrast */
     --bg: #0a0a0a;
-    --bg-secondary: #111111;
+    --bg-secondary: #161616;
     --fg: #eaeaea;
     --fg-secondary: #a8a8a8;
-    --fg-muted: #777777;
-    --card-bg: #121212;
-    --card-hover: #181818;
-    --border: #222222;
-    --border-hover: #333333;
+    --fg-muted: #888888;
+    --card-bg: #1f1f1f;
+    --card-hover: #2a2a2a;
+    --border: #333333;
+    --border-hover: #444444;
     --accent: #ffffff;
     --accent-muted: #888888;
-    --btn-bg: #161616;
-    --btn-hover: #222222;
-    --btn-active: #2a2a2a;
-    --input-bg: #0f0f0f;
-    --input-border: #222222;
+    --btn-bg: #222222;
+    --btn-hover: #333333;
+    --btn-active: #3a3a3a;
+    --input-bg: #1a1a1a;
+    --input-border: #333333;
     --sidebar-bg: #080808;
-    --sidebar-border: #141414;
+    --sidebar-border: #1a1a1a;
     --sidebar-active: #eaeaea;
     --danger: #e0e0e0;
     --danger-muted: #444444;
