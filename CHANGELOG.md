@@ -29,6 +29,8 @@
 - **Several panels lost their CSS** — bulk import (drop zone, aggregate bar, result list), cloud-save backup progress, the EAC guide tabs, the Library callout and drive picker, and the Store page counter were unstyled after the rewrite. They render as intended again.
 - **Window caption is blank** — the title bar showed the fork name next to the minimize, maximize, and close buttons. The caption is now empty, while the name stays in the sidebar, tray icon, and About dialog.
 - **Renamed to "Alne's fork of SM"** — the tray icon, About dialog, sidebar brand, and the built executable now carry the fork's name. The Explorer context-menu entry keeps its existing registry key so installs are upgraded in place.
+- **Modern UI polish pass** — buttons, inputs, toolbars, cards, modals, settings, downloads, and the tutorial now share one token system for control heights, radii, motion, and elevation. Store and Library toolbars keep their alignment at narrow widths, and stacked choice dialogs wrap their descriptions instead of clipping. The sidebar logo and the application icon also use a monochrome treatment.
+- **Unreadable labels on Bee and danger surfaces** — Bee inherited Pure Dark's muted and danger colors, leaving the sidebar brand invisible and several labels at roughly 1.2:1, while danger buttons paired a light red label with a dark red fill. Bee now defines its own readable palette and danger buttons use a per-theme foreground.
 
 ## 6.9.1
 

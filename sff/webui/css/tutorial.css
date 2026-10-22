@@ -13,18 +13,13 @@
 .tutorial-pane.hidden { display: none !important; }
 
 .tutorial-spotlight {
-    outline: 3px solid var(--accent, #eaeaea) !important;
-    outline-offset: 3px; border-radius: 8px;
-    animation: tutorial-pulse 1.4s ease-in-out infinite;
-}
-@keyframes tutorial-pulse {
-    0%, 100% { outline-color: rgba(234,234,234,0.5); }
-    50% { outline-color: rgba(234,234,234,1); }
+    outline: 2px solid var(--accent, #eaeaea) !important;
+    outline-offset: 3px; border-radius: var(--radius);
 }
 
 #tutorial-arrow {
     position: fixed; z-index: 2006; color: var(--accent, #eaeaea);
-    font-size: 28px; line-height: 1; pointer-events: none;
+    font-size: 26px; line-height: 1; pointer-events: none;
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
 }
 #tutorial-arrow.hidden { display: none !important; }
@@ -32,34 +27,37 @@
 #tutorial-dialog {
     position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%);
     z-index: 2005; width: min(560px, calc(100vw - 32px));
-    background: #0d0d0d; border: 1px solid var(--border);
-    border-radius: var(--radius); box-shadow: 0 12px 48px rgba(0,0,0,0.5);
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); box-shadow: var(--shadow-modal);
     padding: 16px 18px;
 }
 #tutorial-dialog.tutorial-dialog-top { top: 20px; bottom: auto; }
 #tutorial-dialog.hidden { display: none !important; }
 
-#tutorial-dialog-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; color: var(--fg); }
-#tutorial-dialog-body { font-size: 13px; line-height: 1.6; color: var(--fg); opacity: 0.92; }
+#tutorial-dialog-title { font-size: 14px; font-weight: 600; margin-bottom: 6px; color: var(--fg); }
+#tutorial-dialog-body { font-size: 12.5px; line-height: 1.6; color: var(--fg-secondary); }
 #tutorial-dialog-body code {
-    background: #1a1a1a; padding: 1px 5px; border-radius: 3px; font-size: 12px;
+    background: var(--input-bg); border: 1px solid var(--border);
+    padding: 1px 5px; border-radius: var(--radius-xs); font-size: 11.5px;
 }
 
 #tutorial-dialog-meta {
     display: flex; align-items: center; justify-content: space-between;
     margin-top: 12px; gap: 10px;
 }
-#tutorial-step-count { font-size: 12px; color: var(--fg-muted); opacity: 0.65; white-space: nowrap; }
+#tutorial-step-count { font-size: 11px; color: var(--fg-muted); white-space: nowrap; }
 #tutorial-dialog-btns { display: flex; gap: 8px; }
 
 .tutorial-demo-badge {
     position: absolute; top: 8px; right: 8px; z-index: 3;
-    padding: 3px 8px; border-radius: 6px; background: #444444; color: #eaeaea;
-    font-size: 11px; font-weight: 800; letter-spacing: 0.04em;
+    padding: 3px 7px; border-radius: var(--radius-xs);
+    background: var(--accent); color: var(--on-accent);
+    font-size: 10px; font-weight: 700; letter-spacing: 0.05em;
 }
 .tutorial-mock-cover {
     height: 150px; display: flex; align-items: center; justify-content: center;
-    font-size: 44px; background: #1a1a1a; border-radius: 8px 8px 0 0;
+    font-size: 44px; background: var(--input-bg);
+    border-radius: var(--radius) var(--radius) 0 0;
 }
 
 #tutorial-download-modal {
@@ -69,14 +67,14 @@
 #tutorial-download-modal.hidden { display: none !important; }
 
 #tutorial-dl-nudge {
-    display: none; margin-top: 8px; font-size: 12px; color: #b0b0b0;
+    display: none; margin-top: 8px; font-size: 11.5px; color: var(--fg-secondary);
 }
 #tutorial-dl-nudge.visible { display: block; }
 
 #tutorial-mock-card { position: relative; }
 #tutorial-fake-progress-track {
-    width: 100%; height: 6px; background: var(--border); border-radius: 3px;
-    overflow: hidden; margin-top: 6px;
+    width: 100%; height: 5px; background: var(--border);
+    border-radius: var(--radius-pill); overflow: hidden; margin-top: 6px;
 }
 #tutorial-fake-progress-fill {
     height: 100%; width: 0%; background: var(--accent); transition: width 0.3s linear;

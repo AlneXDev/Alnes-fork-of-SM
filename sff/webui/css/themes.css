@@ -23,6 +23,7 @@ html[data-theme="dark"] {
     --sidebar-active: #4a9eff;
     --danger: #ff6b6b;
     --danger-muted: #b34b4b;
+    --on-danger: #ffffff;
 }
 
 /* Professional minimal monochrome dark */
@@ -48,6 +49,7 @@ html[data-theme="pure-dark"] {
     --sidebar-active: #eaeaea;
     --danger: #e0e0e0;
     --danger-muted: #444444;
+    --on-danger: #eaeaea;
 }
 
 html[data-theme="light"] {
@@ -72,6 +74,7 @@ html[data-theme="light"] {
     --sidebar-active: #000000;
     --danger: #c0392b;
     --danger-muted: #e0b0aa;
+    --on-danger: #1a1a1a;
 }
 
 /* Remaining themes preserved as options */
@@ -137,9 +140,16 @@ html[data-theme="amoled"] {
 }
 html[data-theme="bee"] {
     --bg: #fcdd6a; --fg: #1b1b1b; --card-bg: #f8c600;
-    --accent: #fff200; --border: #aa8100; --btn-bg: #aa8100;
-    --btn-hover: #ba972a; --input-bg: #f8bc00; --sidebar-bg: #1b1b1b;
-    --sidebar-active: #fff200;
+    --fg-secondary: #4a3c00; --fg-muted: #5c4a00;
+    --card-hover: #f5cd3a;
+    --accent: #7a5200; --accent-muted: #9a7200; --on-accent: #fff6d8;
+    --border: #aa8100;
+    --border-hover: #8a6800; --btn-bg: #aa8100;
+    --btn-hover: #ba972a; --btn-active: #caa73a;
+    --input-bg: #f8bc00; --input-border: #aa8100;
+    --sidebar-bg: #f2c200; --sidebar-border: #aa8100;
+    --sidebar-active: #1b1b1b;
+    --danger: #8a2b1a; --danger-muted: #8a2b1a; --on-danger: #ffffff;
 }
 html[data-theme="blue-gld"] {
     --bg: #24273a; --fg: #cad3f5; --card-bg: #1e2030;
