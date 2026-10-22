@@ -87,7 +87,7 @@
                 </a>
             </div>
 
-            <div id="home-lumacore-alert" class="hint-banner platform-win hidden" style="border-left-color:#5fa8ff;" data-tooltip="SteaMidra checks your Steam folder and only shows this when LumaCore is missing or outdated.">
+            <div id="home-lumacore-alert" class="hint-banner platform-win hidden" data-tooltip="SteaMidra checks your Steam folder and only shows this when LumaCore is missing or outdated.">
                 <svg class="hint-icon" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
                 <div class="hint-text">
                     <strong id="home-lumacore-alert-title">LumaCore Installation Required</strong>
@@ -96,7 +96,7 @@
                 </div>
             </div>
 
-            <div class="hint-banner platform-linux" style="border-left-color:#ffb84d;display:none;" data-tooltip="LumaCore is a Steam-client DLL hijack and is Windows-only. SteaMidra on Linux uses SLSsteam plus SLScheevo for ownership and achievements; SteaMidra still writes manifests, registers depot keys, and installs ACFs, but family bypass and on-launch ownership injection run via SLSsteam, not LumaCore.">
+            <div class="hint-banner platform-linux" data-tooltip="LumaCore is a Steam-client DLL hijack and is Windows-only. SteaMidra on Linux uses SLSsteam plus SLScheevo for ownership and achievements; SteaMidra still writes manifests, registers depot keys, and installs ACFs, but family bypass and on-launch ownership injection run via SLSsteam, not LumaCore.">
                 <svg class="hint-icon" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
                 <div class="hint-text">
                     <strong>LumaCore is not available on Linux.</strong>
@@ -2208,13 +2208,13 @@ fi</pre>Save the file, then reopen Konsole.</li>
             <div class="modal-body">
                 <p style="margin-bottom:14px;opacity:0.9;">How do you want to remove <strong id="library-delete-game-name"></strong>?</p>
                 <div style="display:flex;flex-direction:column;gap:10px;">
-                    <button id="library-delete-applist" class="btn btn-primary" style="text-align:left;padding:12px 16px;">
+                    <button id="library-delete-applist" class="btn btn-primary btn-stacked">
                         <strong>Remove from library</strong>
-                        <span style="display:block;font-size:12px;opacity:0.7;margin-top:3px;white-space:normal;">Removes the stplug-in Lua entry. Game files stay on disk.</span>
+                        <span class="btn-desc">Removes the stplug-in Lua entry. Game files stay on disk.</span>
                     </button>
-                    <button id="library-delete-full" class="btn btn-danger" style="text-align:left;padding:12px 16px;">
+                    <button id="library-delete-full" class="btn btn-danger btn-stacked">
                         <strong>Remove completely</strong>
-                        <span style="display:block;font-size:12px;opacity:0.7;margin-top:3px;white-space:normal;">Permanently deletes all game files from disk. This cannot be undone.</span>
+                        <span class="btn-desc">Permanently deletes all game files from disk. This cannot be undone.</span>
                     </button>
                 </div>
             </div>
@@ -2235,13 +2235,13 @@ fi</pre>Save the file, then reopen Konsole.</li>
             <div class="modal-body">
                 <p style="margin-bottom:14px;opacity:0.9;">Cancel <strong id="queue-cancel-game-name"></strong>?</p>
                 <div style="display:flex;flex-direction:column;gap:10px;">
-                    <button id="queue-cancel-keep" class="btn btn-primary" style="text-align:left;padding:12px 16px;">
+                    <button id="queue-cancel-keep" class="btn btn-primary btn-stacked">
                         <strong>Keep files</strong>
-                        <span style="display:block;font-size:12px;opacity:0.7;margin-top:3px;white-space:normal;">Stops the download. Anything already on disk stays.</span>
+                        <span class="btn-desc">Stops the download. Anything already on disk stays.</span>
                     </button>
-                    <button id="queue-cancel-delete" class="btn btn-danger" style="text-align:left;padding:12px 16px;">
+                    <button id="queue-cancel-delete" class="btn btn-danger btn-stacked">
                         <strong>Remove everything</strong>
-                        <span style="display:block;font-size:12px;opacity:0.7;margin-top:3px;white-space:normal;">Stops the download and deletes all game files from disk. This cannot be undone.</span>
+                        <span class="btn-desc">Stops the download and deletes all game files from disk. This cannot be undone.</span>
                     </button>
                 </div>
             </div>
@@ -2266,15 +2266,15 @@ fi</pre>Save the file, then reopen Konsole.</li>
                     <span><strong>Latest:</strong> <span id="lc-version-latest">—</span></span>
                     <button id="lc-version-refresh" class="btn btn-sm" style="margin-left:auto;">Check for updates</button>
                 </div>
-                <div id="lc-version-update-banner" class="hint-banner" style="display:none;border-left-color:#5fa8ff;margin-bottom:12px;">
+                <div id="lc-version-update-banner" class="hint-banner" style="display:none;margin-bottom:12px;">
                     <div class="hint-text" style="font-size:12px;">
                         <strong>A new LumaCore version is available.</strong>
                         Click <em>Install LumaCore</em> below to download and apply it. Steam will close automatically.
                     </div>
                 </div>
-                <div id="lc-steam-updates-warning" class="hint-banner" style="border-left-color:#ef4444;margin-bottom:12px;background:rgba(239,68,68,0.08);">
+                <div id="lc-steam-updates-warning" class="hint-banner hint-banner-warning" style="margin-bottom:12px;">
                     <div class="hint-text" style="font-size:12px;">
-                        <strong style="color:#fca5a5;">Recommended before using LumaCore:</strong>
+                        <strong>Recommended before using LumaCore:</strong>
                         block Steam client auto-updates so a Steam update does not replace the patched launch files.
                         You can unblock it later from the Steam Updates tile.
                     </div>
