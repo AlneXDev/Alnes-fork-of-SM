@@ -83,6 +83,14 @@ jobs:
             echo ERROR: Qt6Core.dll missing from _internal — PyInstaller produced a hollow build.
             exit /b 1
           )
+          if not exist "dist\Alnes_fork_of_SM\_internal\libssl-3.dll" (
+            echo ERROR: libssl-3.dll missing from _internal - HTTPS/_ssl would crash on a clean machine.
+            exit /b 1
+          )
+          if not exist "dist\Alnes_fork_of_SM\_internal\libcrypto-3.dll" (
+            echo ERROR: libcrypto-3.dll missing from _internal - HTTPS/_ssl would crash on a clean machine.
+            exit /b 1
+          )
           powershell -NoProfile -Command "$bad = Get-ChildItem -LiteralPath 'dist\Alnes_fork_of_SM' -Recurse -File | Where-Object { $_.Name -match '\.so(\..*)?$' -or $_.FullName -match '(?i)(^|[\\/])x86_64-linux-gnu([\\/]|$)' -or $_.FullName -match '(?i)(^|[\\/])linux_x86_64([\\/]|$)' }; if ($bad) { $bad | Select-Object -First 40 FullName; throw 'Linux binary files leaked into Windows package' }"
       - name: Create portable Windows zip
         shell: pwsh
