@@ -1790,10 +1790,6 @@ class SFFMainWindow(QMainWindow):
             self._release_webview_gpu()
             if not self._tray_hide_notified:
                 self._tray_hide_notified = True
-                self._tray.notify(
-                    "Alne's fork of SM",
-                    "Alne's fork of SM is running in the system tray. Click the ^ arrow near the clock to find it.",
-                )
         else:
             # OFF branch: the tray icon is parented to QApplication, so leaving
             # it alive after event.accept() keeps the process running. Hide it
