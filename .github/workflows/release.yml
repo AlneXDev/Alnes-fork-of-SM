@@ -36,6 +36,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: linux-release
+          if-no-files-found: error
           path: |
             SteaMidra-*-linux.zip
             SteaMidra-*-x86_64.AppImage
@@ -93,11 +94,13 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: windows-release
+          if-no-files-found: error
           path: Alnes_fork_of_SM-*-windows.zip
       - name: Upload Windows installer
         uses: actions/upload-artifact@v4
         with:
           name: windows-setup
+          if-no-files-found: error
           path: Alnes_fork_of_SM-*-Setup.exe
   release:
     needs: [build-linux, build-windows]
