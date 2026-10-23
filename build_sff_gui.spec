@@ -28,11 +28,20 @@ datas = [
 # wheel instead of the DLLs that _ssl.pyd was built against, causing
 # "DLL load failed: The specified procedure could not be found."
 # Bundle the matching DLLs directly from the base Python installation.
-_BASE_PYTHON_DIR = r'C:\Users\AlneB\AppData\Local\Programs\Python\Python314'
+_BASE_PYTHON_DIR = sys.base_prefix
+if not os.path.isdir(os.path.join(_BASE_PYTHON_DIR, 'DLLs')):
+    _BASE_PYTHON_DIR = os.path.dirname(sys.executable)
+_OPENSSL_FOUND = []
 for _ssl_name in ("libcrypto-3.dll", "libssl-3.dll"):
     _ssl_src = os.path.join(_BASE_PYTHON_DIR, 'DLLs', _ssl_name)
     if os.path.exists(_ssl_src):
-        datas.append((_ssl_src, _ssl_name))
+        _OPENSSL_FOUND.append(_ssl_name)
+if len(_OPENSSL_FOUND) != 2:
+    raise SystemExit(
+        f"ERROR: Could not find libcrypto-3.dll and libssl-3.dll under "
+        f"{os.path.join(_BASE_PYTHON_DIR, 'DLLs')!r}; found {_OPENSSL_FOUND!r}. "
+        f"The build would crash with 'DLL load failed while importing _ssl'."
+    )
 
 # Include only Windows-side third_party tools. Do not drag Linux .so folders
 # into the Windows package, that made the installer fat and confusing.
@@ -227,8 +236,8 @@ a = Analysis(
 
 # Strip any OpenSSL DLLs PyInstaller auto-collected (from Python's DLLs
 # folder and/or the cryptography wheel) so there's exactly one file per
-# OpenSSL DLL basename in _internal/. datas[] already supplies libcrypto-3.dll
-# and libssl-3.dll; the -x64 variants are dropped entirely.
+# OpenSSL DLL basename in _internal/. PyInstaller reclassifies .dll datas as
+# binaries, so these must be re-added to a.binaries after stripping.
 _OPENSSL_BASENAMES = {
     'libssl-3.dll', 'libcrypto-3.dll',
     'libssl-3-x64.dll', 'libcrypto-3-x64.dll',
@@ -237,6 +246,12 @@ a.binaries = [
     b for b in a.binaries
     if os.path.basename(b[0]) not in _OPENSSL_BASENAMES
 ]
+for _ssl_name in _OPENSSL_FOUND:
+    a.binaries.append((
+        _ssl_name,
+        os.path.join(_BASE_PYTHON_DIR, 'DLLs', _ssl_name),
+        'BINARY',
+    ))
 
 pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)
 

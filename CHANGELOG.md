@@ -1,5 +1,11 @@
 # Changelog
 
+## 6.11.1
+
+### Fixed
+
+- **Windows builds crashed on a clean machine with `DLL load failed while importing _ssl`** - the PyInstaller spec looked for OpenSSL in a hardcoded local Python path that does not exist on the CI runner, then removed the DLLs PyInstaller had collected, so `libssl-3.dll` and `libcrypto-3.dll` were absent from the bundle. The spec now reads the base interpreter via `sys.base_prefix`, places both DLLs at the root of `_internal`, and fails the build if either is missing. CI also verifies both files before packaging.
+
 ## 6.11.0
 
 ### Added

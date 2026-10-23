@@ -1,4 +1,4 @@
-## Alne's fork of SM 6.11.0
+## Alne's fork of SM 6.11.1
 
 Monochrome, local-only fork of SteaMidra with a portable Windows build and a polished desktop UI.
 
@@ -18,6 +18,10 @@ Monochrome, local-only fork of SteaMidra with a portable Windows build and a pol
 - **Fork identity** — `Alne's fork of SM` across the About dialog, sidebar, and tray; Explorer context menu uses the `AlnesForkOfSM` registry key and removes legacy keys on uninstall.
 - **Windows portable build** — no installer required; settings and downloaded data stay alongside the executable.
 - **Linux build fixes** — the AppImage now packages and launches the rebuilt `Alnes_fork_of_SM` binary.
+
+### Fixed
+
+- **Windows startup on clean machines** - the Windows build now bundles the correct `libssl-3.dll` and `libcrypto-3.dll`, fixing the `DLL load failed while importing _ssl` crash that affected 6.11.0. This release replaces the withdrawn 6.11.0 Windows downloads.
 
 ### Notes
 

@@ -4,7 +4,7 @@
 !define APPNAME    "Alne's fork of SM"
 !define COMPANY    "AlneXDev"
 !ifndef VERSION
-  !define VERSION  "6.11.0"
+  !define VERSION  "6.11.1"
 !endif
 !define EXENAME    "Alnes_fork_of_SM.exe"
 !define PUBLISHER  "AlneXDev"
