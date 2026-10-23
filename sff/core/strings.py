@@ -25,9 +25,9 @@ _swak = b"MUREMDQ1MEE5OUY1NzM2OTNDRDAzMUVCQjE2MDkwN0Q="
 STEAM_WEB_API_KEY = _b64.b64decode(_swak).decode()
 GITHUB_USERNAME = "Midrags"
 REPO_NAME = "sff"
-# Update check source: https://github.com/drappula/SFF/releases/
-GITHUB_UPDATE_USERNAME = "drappula"
-REPO_UPDATE_NAME = "SFF"
-RELEASE_PAGE_URL = "https://github.com/drappula/SFF/releases/"
+# Update check source: https://github.com/AlneXDev/Alnes-fork-of-SM/releases/
+GITHUB_UPDATE_USERNAME = "AlneXDev"
+REPO_UPDATE_NAME = "Alnes-fork-of-SM"
+RELEASE_PAGE_URL = "https://github.com/AlneXDev/Alnes-fork-of-SM/releases/"
 WINDOWS_RELEASE_PREFIX = "0_windows_x86-64"
 LINUX_RELEASE_PREFIX = "1_linux_x86-64"

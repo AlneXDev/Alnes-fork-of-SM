@@ -1952,7 +1952,7 @@ class SFFMainWindow(QMainWindow):
             self,
             "About Alne's fork of SM",
             f"Alne's fork of SM\nVersion {VERSION}\n\n"
-            "https://github.com/drappula/SFF/releases",
+            "https://github.com/AlneXDev/Alnes-fork-of-SM/releases",
         )
 
     # ── LumaCore Setup helpers ────────────────────────────────────

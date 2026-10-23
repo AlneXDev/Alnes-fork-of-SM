@@ -530,7 +530,7 @@ window.Settings = (function() {
         if (githubLink) {
             githubLink.addEventListener('click', function(e) {
                 e.preventDefault();
-                Bridge.call('open_url', 'https://github.com/drappula/SFF');
+                Bridge.call('open_url', 'https://github.com/AlneXDev/Alnes-fork-of-SM');
             });
         }
 
