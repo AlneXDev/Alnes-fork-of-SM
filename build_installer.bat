@@ -39,8 +39,10 @@ if %errorlevel% neq 0 (
 
 :compile_nsi
 echo [2/2] Compiling NSIS installer...
-where "%NSIS%" >nul 2>&1
+if exist "%NSIS%" goto nsis_found
+where makensis >nul 2>&1
 if errorlevel 1 goto nsis_missing
+set "NSIS=makensis"
 goto nsis_found
 :nsis_missing
     echo NSIS not found at "%NSIS%"
