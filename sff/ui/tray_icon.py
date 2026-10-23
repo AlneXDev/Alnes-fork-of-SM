@@ -141,22 +141,7 @@ class TrayIcon(QObject):
         self._tray.show()
         logger.info("System tray icon created")
 
-        # Fire one notification so users who don't see the icon
-        # immediately get a visual confirmation that it IS up. Windows
-        # 11 hides new tray icons in the overflow menu by default; the
-        # balloon cuts down on "tray icon missing" reports because users
-        # see SteaMidra is alive there even when the icon is overflowed.
-        # Wording matters: this runs at startup while the window is
-        # visible, so it must not claim the app is hidden in the tray.
-        try:
-            self._tray.showMessage(
-                "SteaMidra",
-                "Icon added to the system tray. Right-click it for the menu.",
-                QSystemTrayIcon.MessageIcon.Information,
-                2500,
-            )
-        except Exception:
-            pass
+        # Skip the startup balloon to avoid the old icon/exclamation noise.
 
         # Heartbeat: re-show the icon periodically. Cheap insurance
         # against Explorer restarts and DPI changes that can drop the
@@ -182,7 +167,7 @@ class TrayIcon(QObject):
     def _build_menu(self):
         self._menu = QMenu()
 
-        show_action = QAction("Show SteaMidra", self._menu)
+        show_action = QAction("Show Alne's fork of SM", self._menu)
         show_action.triggered.connect(self.show_requested.emit)
         self._menu.addAction(show_action)
 
@@ -224,7 +209,7 @@ class TrayIcon(QObject):
         if self._tray is not None:
             try:
                 self._tray.showMessage(
-                    title, message, QSystemTrayIcon.MessageIcon.Information, duration_ms
+                    title, message, QSystemTrayIcon.MessageIcon.NoIcon, duration_ms
                 )
             except RuntimeError:
                 self._tray = None

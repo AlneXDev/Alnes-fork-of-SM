@@ -15,6 +15,7 @@
 
 ### Fixed
 
+- **Tray balloon kept the old icon and a blue information badge** — the startup "icon added" balloon is gone, and the close-to-tray message no longer asks Windows for the blue Information badge. The tray menu also uses the fork name, and the startup splash/default avatar are monochrome.
 - **DDMod downloads that fetched nothing no longer report success** — DepotDownloader exits 0 even when the CDN serves no content, and a pinned manifest exempted the 0-byte failure check while DDMod's own `.DepotDownloader` bookkeeping bytes defeated the bridge-side guard. An empty install dir now fails regardless of manifest, and bookkeeping files no longer count as content, so the failure message (and a chance to pick another source) is shown instead of a false "Download complete".
 - **Windows frozen auto-update failed with `name 'safe_extract_zip' is not defined`** — the Windows frozen updater path called the helper without importing it. The import is now done at the call site so the update extracts normally.
 - **Fix Game uses the right Linux mode automatically** — on Linux the native-vs-Proton/Wine flag was only honored when passed through by every caller; the web bridge dropped it, and a game folder could end up fixed as Proton even when it shipped `libsteam_api.so`. The mode is now derived from the folder contents (`libsteam_api.so` vs `steam_api.dll`) inside the pipeline, and the flag is forwarded by the bridge, so results stop depending on which entry point invoked it.
