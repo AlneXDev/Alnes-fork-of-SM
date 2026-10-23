@@ -1,14 +1,15 @@
 @echo off
 setlocal
 
-set NSIS=C:\Program Files (x86)\NSIS\makensis.exe
+set "NSIS=C:\Program Files (x86)\NSIS\makensis.exe"
+if not exist "%NSIS%" set "NSIS=makensis"
 
 :: Extract version from sff/core/strings.py
 for /f "tokens=3" %%v in ('findstr "^VERSION" sff\core\strings.py') do set APP_VERSION=%%v
 set APP_VERSION=%APP_VERSION:"=%
 if "%APP_VERSION%"=="" (
     echo Could not read VERSION from sff\core\strings.py
-    pause
+    if not defined CI pause
     exit /b 1
 )
 echo Version: %APP_VERSION%
@@ -17,7 +18,7 @@ echo Version: %APP_VERSION%
 python -c "import re,sys; c=open('installer.nsi').read(); c=re.sub(r'(!define VERSION\s+\")[^\"]+\"', r'\g<1>%APP_VERSION%\"', c); open('installer.nsi','w').write(c)"
 if %errorlevel% neq 0 (
     echo Failed to patch installer.nsi!
-    pause
+    if not defined CI pause
     exit /b 1
 )
 echo Patched installer.nsi to version %APP_VERSION%
@@ -32,26 +33,27 @@ call .venv\Scripts\activate.bat 2>nul || (
 python -m PyInstaller build_sff_gui.spec --noconfirm
 if %errorlevel% neq 0 (
     echo PyInstaller build failed.
-    pause
+    if not defined CI pause
     exit /b 1
 )
 
 :compile_nsi
 echo [2/2] Compiling NSIS installer...
-if not exist "%NSIS%" goto nsis_missing
+where "%NSIS%" >nul 2>&1
+if errorlevel 1 goto nsis_missing
 goto nsis_found
 :nsis_missing
     echo NSIS not found at "%NSIS%"
     echo Install NSIS from https://nsis.sourceforge.io/Download
-    pause
+    if not defined CI pause
     exit /b 1
 :nsis_found
 "%NSIS%" /DVERSION=%APP_VERSION% installer.nsi
 if %errorlevel% neq 0 (
     echo NSIS compile failed.
-    pause
+    if not defined CI pause
     exit /b 1
 )
 
-echo Done. Installer written to SteaMidra-%APP_VERSION%-Setup.exe
-pause
+echo Done. Installer written to Alnes_fork_of_SM-%APP_VERSION%-Setup.exe
+if not defined CI pause

@@ -6,9 +6,14 @@ This fork does not run a background service or upload your data. Settings, logs,
 
 ## Download
 
-Get the latest portable Windows build from [Releases](https://github.com/AlneXDev/Alnes-fork-of-SM/releases). Extract the archive and run `Alnes_fork_of_SM.exe`. Keep the `_internal` folder next to the executable.
+Get the latest build from [Releases](https://github.com/AlneXDev/Alnes-fork-of-SM/releases):
 
-Requires Windows 10 or 11 (x64).
+- **Windows Setup.exe** — recommended installer with Start Menu and desktop shortcuts.
+- **Windows ZIP** — portable build; extract it and run `Alnes_fork_of_SM.exe`. Keep the `_internal` folder next to the executable.
+- **Linux AppImage** — make it executable and run it.
+- **Linux ZIP** — AppImage plus the desktop installer script.
+
+Windows builds require Windows 10 or 11 (x64).
 
 ## What changed in this fork
 

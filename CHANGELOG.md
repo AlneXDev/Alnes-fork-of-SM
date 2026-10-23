@@ -1,5 +1,15 @@
 # Changelog
 
+## 6.11.0
+
+### Added
+
+- **Full multiplatform release** — the GitHub release now ships a Windows installer, a portable Windows ZIP, a Linux AppImage, and a Linux ZIP, alongside GitHub's generated source archives. The installer is the recommended Windows download; the ZIP remains the no-install portable option.
+
+### Changed
+
+- **Version bumped to 6.11.0** — first full release of Alne's fork of SM after the 6.10.0-pre beta. The installer now installs as `Alnes_fork_of_SM.exe` under `%LOCALAPPDATA%\AlnesForkOfSM`, and the Linux AppImage launches the rebuilt `Alnes_fork_of_SM` binary.
+
 ## 6.10.0-pre
 
 ### Added

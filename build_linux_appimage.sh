@@ -122,14 +122,14 @@ echo "==> [3/7] Running PyInstaller (2-5 min)..."
 rm -rf build dist
 pyinstaller build_sff_linux.spec \
     || die "PyInstaller failed. Check the output above for the specific error."
-echo "    Build output: dist/SteaMidra_GUI/"
+echo "    Build output: dist/Alnes_fork_of_SM/"
 
 # ── Step 4: AppDir ────────────────────────────────────────────────────────────
 echo ""
 echo "==> [4/7] Creating AppDir structure..."
 rm -rf "$APPDIR" "$APPIMAGE_OUT"
 mkdir -p "${APPDIR}/usr/bin"
-cp -r dist/SteaMidra_GUI/* "${APPDIR}/usr/bin/"
+cp -r dist/Alnes_fork_of_SM/* "${APPDIR}/usr/bin/"
 
 if [ -f "SFF.png" ]; then
     cp SFF.png "${APPDIR}/${APP_NAME}.png"
@@ -149,7 +149,7 @@ export LD_LIBRARY_PATH="$HERE/usr/bin:$HERE/usr/lib:${LD_LIBRARY_PATH:-}"
 export QT_PLUGIN_PATH="$HERE/usr/bin/PyQt6/Qt6/plugins"
 export QT_QPA_PLATFORM_PLUGIN_PATH="$HERE/usr/bin/PyQt6/Qt6/plugins/platforms"
 export QTWEBENGINE_DISABLE_SANDBOX=1
-exec "$HERE/usr/bin/SteaMidra_GUI" "$@"
+exec "$HERE/usr/bin/Alnes_fork_of_SM" "$@"
 APPRUN_EOF
 chmod +x "${APPDIR}/AppRun"
 echo "    AppRun written (QTWEBENGINE_DISABLE_SANDBOX=1 set)."
@@ -160,7 +160,7 @@ echo "==> [6/7] Writing .desktop file..."
 DESKTOP_FILE="${APPDIR}/${APP_NAME}.desktop"
 printf '[Desktop Entry]\n'        >  "$DESKTOP_FILE"
 printf 'Name=%s\n' "$APP_NAME"   >> "$DESKTOP_FILE"
-printf 'Exec=SteaMidra_GUI\n'    >> "$DESKTOP_FILE"
+printf 'Exec=Alnes_fork_of_SM\n' >> "$DESKTOP_FILE"
 printf 'Icon=%s\n' "$APP_NAME"   >> "$DESKTOP_FILE"
 printf 'Terminal=false\n'        >> "$DESKTOP_FILE"
 printf 'Type=Application\n'      >> "$DESKTOP_FILE"
