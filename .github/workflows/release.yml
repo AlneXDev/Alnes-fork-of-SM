@@ -78,27 +78,27 @@ jobs:
           call .venv\Scripts\activate.bat
           python -c "import PyQt6.QtCore, PyQt6.QtWebEngineCore, prompt_toolkit, selenium, keyring, nacl, cryptography, googleapiclient, zendriver, bs4; print('all imports OK')" || exit /b 1
           call build_installer.bat
-          if not exist "dist\SteaMidra_GUI\_internal\PyQt6\Qt6\bin\Qt6Core.dll" (
+          if not exist "dist\Alnes_fork_of_SM\_internal\PyQt6\Qt6\bin\Qt6Core.dll" (
             echo ERROR: Qt6Core.dll missing from _internal — PyInstaller produced a hollow build.
             exit /b 1
           )
-          powershell -NoProfile -Command "$bad = Get-ChildItem -LiteralPath 'dist\SteaMidra_GUI' -Recurse -File | Where-Object { $_.Name -match '\.so(\..*)?$' -or $_.FullName -match '(?i)(^|[\\/])x86_64-linux-gnu([\\/]|$)' -or $_.FullName -match '(?i)(^|[\\/])linux_x86_64([\\/]|$)' }; if ($bad) { $bad | Select-Object -First 40 FullName; throw 'Linux binary files leaked into Windows package' }"
+          powershell -NoProfile -Command "$bad = Get-ChildItem -LiteralPath 'dist\Alnes_fork_of_SM' -Recurse -File | Where-Object { $_.Name -match '\.so(\..*)?$' -or $_.FullName -match '(?i)(^|[\\/])x86_64-linux-gnu([\\/]|$)' -or $_.FullName -match '(?i)(^|[\\/])linux_x86_64([\\/]|$)' }; if ($bad) { $bad | Select-Object -First 40 FullName; throw 'Linux binary files leaked into Windows package' }"
       - name: Create portable Windows zip
         shell: pwsh
         run: |
           $version = (Select-String -Path "sff\core\strings.py" -Pattern '^VERSION = "(.+)"').Matches.Groups[1].Value
           echo "Building Windows portable zip for version: $version"
-          Compress-Archive -Force -Path "dist\SteaMidra_GUI" -DestinationPath "SteaMidra-${version}-windows.zip"
+          Compress-Archive -Force -Path "dist\Alnes_fork_of_SM" -DestinationPath "Alnes_fork_of_SM-${version}-windows.zip"
       - name: Upload Windows portable zip
         uses: actions/upload-artifact@v4
         with:
           name: windows-release
-          path: SteaMidra-*-windows.zip
+          path: Alnes_fork_of_SM-*-windows.zip
       - name: Upload Windows installer
         uses: actions/upload-artifact@v4
         with:
           name: windows-setup
-          path: SteaMidra-*-Setup.exe
+          path: Alnes_fork_of_SM-*-Setup.exe
   release:
     needs: [build-linux, build-windows]
     runs-on: ubuntu-latest
@@ -111,11 +111,12 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
+          name: "Alne's fork of SM ${{ github.ref_name }}"
           files: |
             linux-release/SteaMidra-*-linux.zip
             linux-release/SteaMidra-*-x86_64.AppImage
-            windows-release/SteaMidra-*-windows.zip
-            windows-setup/SteaMidra-*-Setup.exe
+            windows-release/Alnes_fork_of_SM-*-windows.zip
+            windows-setup/Alnes_fork_of_SM-*-Setup.exe
           draft: false
           prerelease: false
           body_path: release-note.md

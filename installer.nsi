@@ -1,18 +1,18 @@
-; SteaMidra Windows Installer
-; NSIS MUI2 script — 64-bit, user-level, LZMA compression
+; Alne's fork of SM Windows Installer
+; NSIS MUI2 script — 64-bit, user-level, zlib compression
 
-!define APPNAME    "SteaMidra"
-!define COMPANY    "Midrags"
+!define APPNAME    "Alne's fork of SM"
+!define COMPANY    "AlneXDev"
 !ifndef VERSION
-  !define VERSION  "6.6.7"
+  !define VERSION  "6.11.0"
 !endif
-!define EXENAME    "SteaMidra_GUI.exe"
-!define PUBLISHER  "Midrags"
+!define EXENAME    "Alnes_fork_of_SM.exe"
+!define PUBLISHER  "AlneXDev"
 
 Name "${APPNAME}"
-OutFile "SteaMidra-${VERSION}-Setup.exe"
+OutFile "Alnes_fork_of_SM-${VERSION}-Setup.exe"
 
-InstallDir "$LOCALAPPDATA\${APPNAME}"
+InstallDir "$LOCALAPPDATA\AlnesForkOfSM"
 InstallDirRegKey HKCU "Software\${COMPANY}\${APPNAME}" "InstallDir"
 RequestExecutionLevel user
 ; Solid LZMA on 1.1 GB of dist data cost ~8 min per CI build for ~150 MB
@@ -37,7 +37,7 @@ BrandingText "${APPNAME} ${VERSION}"
 !define MUI_FINISHPAGE_RUN        "$INSTDIR\${EXENAME}"
 !define MUI_FINISHPAGE_RUN_TEXT   "Launch ${APPNAME}"
 !define MUI_FINISHPAGE_LINK       "Visit GitHub"
-!define MUI_FINISHPAGE_LINK_LOCATION "https://github.com/Midrags/SFF"
+!define MUI_FINISHPAGE_LINK_LOCATION "https://github.com/AlneXDev/Alnes-fork-of-SM"
 
 ; Installer pages
 !insertmacro MUI_PAGE_WELCOME
@@ -65,14 +65,14 @@ FunctionEnd
 ; ============================================================
 ; Main install section
 ; ============================================================
-Section "SteaMidra (required)" SEC_MAIN
+Section "Alne's fork of SM (required)" SEC_MAIN
     SectionIn RO
 
     SetOutPath "$INSTDIR"
-    File /r "dist\SteaMidra_GUI\*"
+    File /r "dist\Alnes_fork_of_SM\*"
 
     ; Bundle the icon at root so shortcuts and ARP show it
-    File /oname=SteaMidra.ico "SFF.ico"
+    File /oname=Alnes_fork_of_SM.ico "SFF.ico"
 
     WriteUninstaller "$INSTDIR\Uninstall.exe"
 
@@ -81,7 +81,7 @@ Section "SteaMidra (required)" SEC_MAIN
     WriteRegStr  HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APPNAME}" "DisplayName"      "${APPNAME}"
     WriteRegStr  HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APPNAME}" "DisplayVersion"   "${VERSION}"
     WriteRegStr  HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APPNAME}" "Publisher"        "${PUBLISHER}"
-    WriteRegStr  HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APPNAME}" "DisplayIcon"      "$INSTDIR\SteaMidra.ico"
+    WriteRegStr  HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APPNAME}" "DisplayIcon"      "$INSTDIR\Alnes_fork_of_SM.ico"
     WriteRegStr  HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APPNAME}" "UninstallString"  '"$INSTDIR\Uninstall.exe"'
     WriteRegStr  HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APPNAME}" "QuietUninstallString" '"$INSTDIR\Uninstall.exe" /S'
     WriteRegStr  HKCU "Software\${COMPANY}\${APPNAME}" "InstallDir" "$INSTDIR"
@@ -122,12 +122,12 @@ Section ".NET 9 Runtime (required for downloads)" SEC_DOTNET
 
     dotnet_dl_failed:
         DetailPrint "Could not download .NET 9 Runtime (no internet, AV block, or firewall)."
-        DetailPrint "Skipping. SteaMidra will offer to install it again on first launch."
+        DetailPrint "Skipping. The app will offer to install it again on first launch."
         Goto dotnet_end
 
     dotnet_install_failed:
         DetailPrint ".NET 9 Runtime installer returned exit code $0 (skipping)."
-        DetailPrint "SteaMidra will offer to install it again on first launch."
+        DetailPrint "The app will offer to install it again on first launch."
 
     dotnet_end:
 SectionEnd
@@ -187,7 +187,7 @@ SectionEnd
 ; Optional: Desktop shortcut
 ; ============================================================
 Section "Desktop Shortcut" SEC_DESKTOP
-    CreateShortcut "$DESKTOP\${APPNAME}.lnk" "$INSTDIR\${EXENAME}" "" "$INSTDIR\SteaMidra.ico"
+    CreateShortcut "$DESKTOP\${APPNAME}.lnk" "$INSTDIR\${EXENAME}" "" "$INSTDIR\Alnes_fork_of_SM.ico"
 SectionEnd
 
 ; ============================================================
@@ -195,7 +195,7 @@ SectionEnd
 ; ============================================================
 Section "Start Menu Shortcut" SEC_STARTMENU
     CreateDirectory "$SMPROGRAMS\${APPNAME}"
-    CreateShortcut  "$SMPROGRAMS\${APPNAME}\${APPNAME}.lnk"  "$INSTDIR\${EXENAME}" "" "$INSTDIR\SteaMidra.ico"
+    CreateShortcut  "$SMPROGRAMS\${APPNAME}\${APPNAME}.lnk"  "$INSTDIR\${EXENAME}" "" "$INSTDIR\Alnes_fork_of_SM.ico"
     CreateShortcut  "$SMPROGRAMS\${APPNAME}\Uninstall.lnk"   "$INSTDIR\Uninstall.exe"
 SectionEnd
 
@@ -205,7 +205,7 @@ SectionEnd
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
     !insertmacro MUI_DESCRIPTION_TEXT ${SEC_MAIN}      "Core application files. Required."
     !insertmacro MUI_DESCRIPTION_TEXT ${SEC_DOTNET}    "Required for the DepotDownloaderMod download tool. Skipped automatically if .NET 9 is already installed."
-    !insertmacro MUI_DESCRIPTION_TEXT ${SEC_VCREDIST}  "Visual C++ runtime libraries used by SteaMidra and bundled tools. Skipped automatically if already present."
+    !insertmacro MUI_DESCRIPTION_TEXT ${SEC_VCREDIST}  "Visual C++ runtime libraries used by the app and bundled tools. Skipped automatically if already present."
     !insertmacro MUI_DESCRIPTION_TEXT ${SEC_DESKTOP}   "Add a shortcut on your Desktop."
     !insertmacro MUI_DESCRIPTION_TEXT ${SEC_STARTMENU} "Add a shortcut in the Start Menu."
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
