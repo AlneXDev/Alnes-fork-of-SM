@@ -1410,10 +1410,13 @@ start YourGame-Shipping.exe</pre>
                         <input type="checkbox" id="setting-auto-update-check" checked>
                         <span>Check for updates on startup</span>
                     </label>
-                    <label class="checkbox-option" data-tooltip="When ON, the X button hides the window to the system tray. When OFF (default), the X button fully quits SteaMidra.">
-                        <input type="checkbox" id="setting-close-to-tray">
-                        <span data-i18n="Close button hides to tray (off = quit)">Close button hides to tray (off = quit)</span>
-                    </label>
+                    <div class="input-group">
+                        <label>Close button behavior:</label>
+                        <select id="setting-close-action">
+                            <option value="tray">Hide to tray</option>
+                            <option value="quit">Exit application</option>
+                        </select>
+                    </div>
                     <label class="checkbox-option" data-tooltip="When ON (default), SteaMidra backs up manifests it registers and restores them if Steam deletes them on uninstall.">
                         <input type="checkbox" id="setting-manifest-preserve" checked>
                         <span data-i18n="Preserve manifests when Steam uninstalls a game (recommended)">Preserve manifests when Steam uninstalls a game (recommended)</span>

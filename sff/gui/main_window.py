@@ -1764,22 +1764,32 @@ class SFFMainWindow(QMainWindow):
             set_setting(_S.WINDOW_GEOMETRY, self.saveGeometry().toHex().data().decode())
         except Exception:
             pass
-        # Read live so Settings toggles take effect without restart.
-        # Default ON: X button hides to tray. The user can flip the
-        # CLOSE_TO_TRAY checkbox in Settings to make X quit instead.
-        # Treat missing / empty / explicit-True values as ON; only
-        # "False" / "false" / "0" disable tray behaviour.
         from sff.core.storage.settings import get_setting
+        # New setting takes precedence: close_action = "tray" or "quit"
+        close_to_tray = True
         try:
-            raw = get_setting(_S.CLOSE_TO_TRAY)
+            raw_action = get_setting(_S.CLOSE_ACTION)
         except Exception:
-            raw = None
-        if raw is None or raw == "":
-            close_to_tray = True
-        elif isinstance(raw, bool):
-            close_to_tray = raw
+            raw_action = None
+        if raw_action is not None and str(raw_action).strip() != "":
+            action = str(raw_action).strip().lower()
+            if action in ("quit", "exit", "close"):
+                close_to_tray = False
+            elif action in ("tray", "minimize_to_tray", "hide_to_tray"):
+                close_to_tray = True
+            else:
+                close_to_tray = True
         else:
-            close_to_tray = str(raw).strip().lower() not in ("false", "0", "no", "off")
+            try:
+                raw = get_setting(_S.CLOSE_TO_TRAY)
+            except Exception:
+                raw = None
+            if raw is None or raw == "":
+                close_to_tray = True
+            elif isinstance(raw, bool):
+                close_to_tray = raw
+            else:
+                close_to_tray = str(raw).strip().lower() not in ("false", "0", "no", "off")
         if (
             self._tray is not None
             and self._tray.minimize_to_tray

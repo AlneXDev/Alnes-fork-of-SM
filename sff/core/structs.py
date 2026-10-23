@@ -265,6 +265,7 @@ class Settings(Enum):
         False, str,
     )
     CLOSE_TO_TRAY = SettingItem("close_to_tray", "Close button hides to tray (off = quit)", False, bool)
+    CLOSE_ACTION = SettingItem("close_action", "Close button behavior", False, str)
     # SteamAutoCrack default mode. When set, skips the "Apply Both vs
     # Steamless Only" picker dialog and runs that mode directly. Empty
     # string means ask every time (the default behaviour). Valid values:

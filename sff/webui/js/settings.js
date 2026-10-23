@@ -590,6 +590,7 @@ window.Settings = (function() {
         // Dropdown selects
         var dropdowns = {
             'setting-language': 'language',
+            'setting-close-action': 'close_action',
         };
         Object.keys(dropdowns).forEach(function(id) {
             var el = document.getElementById(id);
@@ -637,7 +638,6 @@ window.Settings = (function() {
             'setting-use-smokeapi': 'use_smokeapi',
             'setting-hide-store-images': 'hide_store_images',
             'setting-auto-update-check': 'auto_update_check',
-            'setting-close-to-tray': 'close_to_tray',
             'setting-manifest-preserve': 'manifest_preserve',
             'setting-store-show-software': 'store_show_software',
             'setting-block-nsfw': 'store_block_nsfw',
@@ -854,6 +854,21 @@ window.Settings = (function() {
                 _setPasswordField('setting-manifesthub-key', settings.manifesthub_api_key);
                 // Selects
                 _setSelectVal('setting-language', settings.language || 'en');
+                var closeAction = settings.close_action;
+                if (closeAction === undefined || closeAction === null || closeAction === '') {
+                    var closeToTray = settings.close_to_tray;
+                    if (closeToTray === undefined || closeToTray === null || closeToTray === '') {
+                        closeAction = 'tray';
+                    } else {
+                        var t = String(closeToTray).strip ? String(closeToTray).strip().toLowerCase() : String(closeToTray).toLowerCase();
+                        if (t === 'false' || t === '0' || t === 'no' || t === 'off') {
+                            closeAction = 'quit';
+                        } else {
+                            closeAction = 'tray';
+                        }
+                    }
+                }
+                _setSelectVal('setting-close-action', closeAction);
                 // Number inputs
                 _setInputVal('setting-download-concurrency', settings.download_concurrency || '32');
                 _setInputVal('setting-depot-download-timeout', settings.depot_download_timeout || '0');
@@ -897,17 +912,6 @@ window.Settings = (function() {
                 // A9: default ON unless explicitly stored as False
                 var autoUpd = settings.auto_update_check;
                 _setCheckbox('setting-auto-update-check', (autoUpd === '' || autoUpd === undefined) ? 'True' : autoUpd);
-                // 6.2.4 hotfix: default ON unless explicitly stored as
-                // False. Tray behaviour matches the manifest_preserve
-                // / auto_update_check pattern. Users who want X = quit
-                // can flip it off; everyone else gets close-to-tray.
-                var closeToTray = settings.close_to_tray;
-                _setCheckbox(
-                    'setting-close-to-tray',
-                    (closeToTray === '' || closeToTray === undefined)
-                        ? 'True'
-                        : closeToTray
-                );
                 // A15: default ON unless explicitly stored as False, mirroring auto_update_check.
                 var manifestPreserve = settings.manifest_preserve;
                 _setCheckbox(
