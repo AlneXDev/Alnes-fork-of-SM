@@ -9,6 +9,10 @@
 - **Pure Dark theme** — the monochrome palette is now a theme of its own in Settings → Theme. Dark keeps its original grey-and-blue look, Pure Dark is the near-black monochrome variant, and the choice is remembered between launches.
 - **Software rendering switch** — Settings → Preferences has a "Software rendering" option that turns the GPU compositor off for machines where it misbehaves. It takes effect after a restart.
 
+### Changed
+
+- **Provider key contribution now defaults to off** — new settings and upgrades from before settings version 1.1.0 no longer opt into `provider_contribute_keys` or Steam-appinfo enrichment, so the three-hour auto-submit stays inactive until the user enables it.
+
 ### Fixed
 
 - **DDMod downloads that fetched nothing no longer report success** — DepotDownloader exits 0 even when the CDN serves no content, and a pinned manifest exempted the 0-byte failure check while DDMod's own `.DepotDownloader` bookkeeping bytes defeated the bridge-side guard. An empty install dir now fails regardless of manifest, and bookkeeping files no longer count as content, so the failure message (and a chance to pick another source) is shown instead of a false "Download complete".

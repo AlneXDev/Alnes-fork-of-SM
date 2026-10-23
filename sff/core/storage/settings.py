@@ -222,9 +222,9 @@ def migrate_settings(settings):
     # Add migration logic here as needed in future versions
     if current_version < "1.1.0":
         if "provider_contribute_keys" not in settings:
-            settings["provider_contribute_keys"] = True
+            settings["provider_contribute_keys"] = False
         if "provider_enrich_steam_metadata" not in settings:
-            settings["provider_enrich_steam_metadata"] = True
+            settings["provider_enrich_steam_metadata"] = False
 
     settings["_version"] = SETTINGS_VERSION
     _atomic_write_settings(settings)
